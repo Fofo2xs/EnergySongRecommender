@@ -3,5 +3,5 @@ project(EnergySongRecommender)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(EnergySongRecommender main.cpp)
+add_executable(EnergySongRecommender main.cpp  Song.cpp)
 
