@@ -8,7 +8,7 @@ class Song{
     private:
         string songName;
         string artist;
-        double energy;
+        double energy = 0.0;
         string genre;
 
     public:

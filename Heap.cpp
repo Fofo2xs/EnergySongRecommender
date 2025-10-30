@@ -30,6 +30,7 @@ int Heap::size() const{
 void Heap::insert(const Song& song){
   heap.push_back(song);
   heapifyUp(heap.size()-1);
+
 }
 
 void Heap::heapifyUp(int index){

@@ -12,15 +12,10 @@ int main() {
 
    Heap songHeap;
 
-   for (const Song& song : songs) {
-      songHeap.insert(song);
-   }
-   songHeap.printAllSongs();
+    for (auto&  song: songs) {
+        songHeap.insert(song);
+    }
 
-
-
-
-   
 }
 
 

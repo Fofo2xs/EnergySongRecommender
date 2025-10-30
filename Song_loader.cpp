@@ -9,56 +9,52 @@ vector<Song> loadSongs(const string& filename) {
 
     vector<Song> songs;
 
+    //Open file
     ifstream file(filename);
     if (!file.is_open()) {
         cerr << "Error opening file: " << filename << endl;
         return songs;
     }
     string line;
-
-    // Skip header
+    //Skip header
     getline(file, line);
 
     while (getline(file, line)) {
-        stringstream ss(line);
-        string temp; // skip columns
-        string track_name, artist_name, energy_str, track_genre;
+        vector<string> columns;
+        string columnInfo;
+        bool inQuotes = false;
 
-        // Skip first 2 columns: index, track_id,
-        getline(ss, temp, ',');
-        getline(ss, temp, ',');
+        // Parse line character by character as the dataset has commas in song names
+        for (int i = 0; i < line.size(); ++i) {
+            char currentChar = line[i];
 
-        // Artist name
-        getline(ss, artist_name, ',');
-
-        getline(ss, temp, ',');
-
-        getline(ss, track_name, ',');
-
-        // Skip columns until energy
-        for (int i = 0; i < 4; i++) {
-            getline(ss, temp, ',');
+            //Check if information is in quotes
+            if (currentChar == '"') {
+                inQuotes = !inQuotes;
+            }
+            else if (currentChar == ',' && !inQuotes) {
+                columns.push_back(columnInfo);
+                columnInfo = "";
+            }
+            else {
+                columnInfo += currentChar;
+            }
         }
+        //Push last column
+        columns.push_back(columnInfo);
 
-        getline(ss, energy_str, ',');
+        //Accessing information that's relevant
+        string songName = columns[4];
+        string artist = columns[2];
+        string genre = columns[20];
+        string energy_str = columns[9];
 
-        // Skip columns until track_genre
-        for (int i = 0; i < 10; i++) {
-            getline(ss, temp, ',');
-        }
-
-        //Track genre
-        getline(ss, track_genre, ',');
-
+        //Convert energy value into a double
         double energy = 0.0;
-        try {
-            energy = stod(energy_str);
-        }
-        catch (const std::invalid_argument& e) {
-            // Skip row if energy is not a number
-            continue;
-        }
-        songs.emplace_back(track_name, artist_name, energy, track_genre);
+        energy = stod(energy_str);
+
+        //Create and add Song
+        songs.emplace_back(songName, artist,energy, genre);
     }
 
     return songs;
