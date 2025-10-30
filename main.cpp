@@ -1,17 +1,27 @@
 #include <iostream>
-#include "Song_loader.cpp"
-
+#include "Song_loader.h"
+#include "Heap.h"
 using namespace std;
 
+
 int main() {
-    vector<Song> songs = loadSongs("dataset.csv");
 
-   cout << "Loaded " << songs.size() << " songs.\n";
+   //Load Songs
+   vector<Song> songs = loadSongs("dataset.csv");
+   cout << "Loaded " << songs.size() << " songs" << endl;
 
-    for (int i = 0; i < 5 && i < songs.size(); i++) {
-        std::cout << songs[i].getSongName() << " by " << songs[i].getArtist()
-                  << " | Energy: " << songs[i].getEnergy()
-                  << "| Genre: " << songs[i].getGenre() << endl;
-    }
+   Heap songHeap;
 
+   for (const Song& song : songs) {
+      songHeap.insert(song);
+   }
+   songHeap.printAllSongs();
+
+
+
+
+   
 }
+
+
+

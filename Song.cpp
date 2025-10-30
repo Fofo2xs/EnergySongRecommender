@@ -34,8 +34,9 @@ string Song::getGenre() const {
     return genre;
 }
 
+
 // Print song details; Here for checking/Testing
 void Song::printSong() const {
-    cout << "Track: " << songName << " | Artist: " << artist << " | Energy: " << energy
+    cout << songName << " by " << artist << " | Energy: " << energy
          << " | Genre: " << genre << endl;
 }

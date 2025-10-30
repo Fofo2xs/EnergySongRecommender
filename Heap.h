@@ -5,7 +5,8 @@ using namespace std;
 //Max Heap
 class Heap {
     private:
-        vector<Song> heap;
+       vector<Song> heap;
+
         // Parent, left, and right child indexies
         int parent(int i);
         int left(int i);
@@ -25,4 +26,5 @@ class Heap {
         bool isEmpty() const;
         int size() const;
         void printAllSongs() const;
+        void printSongs();
  };

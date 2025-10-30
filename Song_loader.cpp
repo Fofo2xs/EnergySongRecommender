@@ -3,10 +3,10 @@
 #include <sstream>
 #include <vector>
 using namespace std;
-#include "Song.h"
+#include "Song_loader.h"
 
 vector<Song> loadSongs(const string& filename) {
- 
+
     vector<Song> songs;
 
     ifstream file(filename);
@@ -25,8 +25,8 @@ vector<Song> loadSongs(const string& filename) {
         string track_name, artist_name, energy_str, track_genre;
 
         // Skip first 2 columns: index, track_id,
-        getline(ss, temp, ','); // index
-        getline(ss, temp, ','); // track_id
+        getline(ss, temp, ',');
+        getline(ss, temp, ',');
 
         // Artist name
         getline(ss, artist_name, ',');
