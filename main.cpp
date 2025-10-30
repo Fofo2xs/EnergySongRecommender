@@ -9,7 +9,7 @@ int main() {
    cout << "Loaded " << songs.size() << " songs.\n";
 
     for (int i = 0; i < 5 && i < songs.size(); i++) {
-        std::cout << songs[i].getTrackName() << " by " << songs[i].getArtist()
+        std::cout << songs[i].getSongName() << " by " << songs[i].getArtist()
                   << " | Energy: " << songs[i].getEnergy()
                   << "| Genre: " << songs[i].getGenre() << endl;
     }

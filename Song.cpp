@@ -3,23 +3,23 @@
 
 // Default constructor
 Song::Song() {
-    trackName = "";
+    songName = "";
     artist = "";
     energy = 0.0;
     genre = "";
 }
 
 // Parameterized constructor
-Song::Song(const std::string& trackName, const std::string& artist, double energy,const std::string& genre) {
-    this->trackName = trackName;
+Song::Song(const std::string& songName, const std::string& artist, double energy,const std::string& genre) {
+    this->songName = songName;
     this->artist = artist;
     this->energy = energy;
     this->genre = genre;
 }
 
 // Getters
-string Song::getTrackName() const {
-    return trackName;
+string Song::getSongName() const {
+    return songName;
 }
 
 string Song::getArtist() const {
@@ -34,8 +34,8 @@ string Song::getGenre() const {
     return genre;
 }
 
-// Print song details
+// Print song details; Here for checking/Testing
 void Song::printSong() const {
-    cout << "Track: " << trackName << " | Artist: " << artist << " | Energy: " << energy
+    cout << "Track: " << songName << " | Artist: " << artist << " | Energy: " << energy
          << " | Genre: " << genre << endl;
 }

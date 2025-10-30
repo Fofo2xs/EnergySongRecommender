@@ -6,7 +6,7 @@ using namespace std;
 
 class Song{
     private:
-        string trackName;
+        string songName;
         string artist;
         double energy;
         string genre;
@@ -16,11 +16,11 @@ class Song{
         Song();
 
         // Parameterized constructor
-        Song(const string& trackName, const string& artist, double energy, const string& genre);
+        Song(const string& songName, const string& artist, double energy, const string& genre);
 
 
         // Getters
-        string getTrackName() const;
+        string getSongName() const;
         string getArtist() const;
         double getEnergy() const;
         string getGenre() const;
