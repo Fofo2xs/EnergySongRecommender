@@ -80,7 +80,7 @@ Song Heap::getMax() const{
 //Print Songs
 void Heap::printAllSongs() const{
   for(const auto& song : heap){
-    cout << song.getSongName() << "by" << song.getArtist()
+    cout << song.getSongName() << " by " << song.getArtist()
     << " | Energy: " << song.getEnergy()
     << " | Genre: " << song.getGenre() << endl;
   }

@@ -26,5 +26,5 @@ class Heap {
         bool isEmpty() const;
         int size() const;
         void printAllSongs() const;
-        void printSongs();
+
  };
