@@ -1,0 +1,112 @@
+#include "Performance.h"
+#include "Heap.h"
+#include "RB.h"
+#include <iostream>
+#include <chrono>
+
+// Helper function to print prettier
+void printTime(const std::string& operation, long long duration_ms) {
+    std::cout << "  " << operation << ": " << duration_ms << " ms" << std::endl;
+}
+
+void Performance::testInsertion(const std::vector<Song>& songs) {
+    std::cout << "\n--- Testing Insertion Speed (" << songs.size() << " songs)" << std::endl;
+    
+    // Test Heap Insertion
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    Heap heap;
+    for (const auto& song : songs) {
+        heap.insert(song);
+    }
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    auto heapTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    printTime("Heap Insert Time", heapTime);
+
+    // Test RB Tree Insertion
+    start = std::chrono::high_resolution_clock::now();
+    
+    RB tree;
+    for (const auto& song : songs) {
+        tree.insert(song);
+    }
+    
+    end = std::chrono::high_resolution_clock::now();
+    auto rbTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    printTime("RB Tree Insert Time", rbTime);
+}
+
+void Performance::testTopNRetrieval(const std::vector<Song>& songs, int n) {
+    if (n > songs.size()) {
+        n = songs.size();
+    }
+    std::cout << "\n--- Testing Top " << n << " Retrieval Speed" << std::endl;
+
+    // Test Heap Retrieval
+    // 1. Build the heap
+    Heap heap;
+    for (const auto& song : songs) {
+        heap.insert(song);
+    }
+    
+    // 2. Time the N extractions
+    auto start = std::chrono::high_resolution_clock::now();
+    std::vector<Song> heapTopN = heap.recommendTopNHeap(n);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto heapTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    printTime("Heap Top N (N extracts)", heapTime);
+
+    // Test RB Tree Retrieval
+    RB tree;
+    for (const auto& song : songs) {
+        tree.insert(song);
+    }
+
+    // 2. Time the topNenergy call.
+    start = std::chrono::high_resolution_clock::now();
+    std::vector<Song> rbResults = tree.topNenergy(n, 0.0f, 1.0f);
+
+    end = std::chrono::high_resolution_clock::now();
+    auto rbTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    printTime("RB Tree Top N (Traversal)", rbTime);
+}
+
+void Performance::testRangeQuery(const std::vector<Song>& songs, float energyLow, float energyHigh) {
+    std::cout << "\n--- Testing Range Query [" << energyLow << ", " << energyHigh << "]" << std::endl;
+
+    // Test Heap Range Query
+    Heap heap;
+    for (const auto& song : songs) {
+        heap.insert(song);
+    }
+
+    // 2. Time the query. This is O(N)
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    std::vector<Song> heapResults = heap.findSongInRange(energyLow, energyHigh);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto heapTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    printTime("Heap Range Query (N scan)", heapTime); 
+    std::cout << "   Found " << heapResults.size() << " songs." << std::endl;
+
+
+    // Test RB Tree Range Query
+    RB tree;
+    for (const auto& song : songs) {
+        tree.insert(song);
+    }
+
+    // 2. Time the query. O(K + log N)
+    start = std::chrono::high_resolution_clock::now();
+    std::vector<Song> rbResults = tree.topNenergy(songs.size(), energyLow, energyHigh);
+
+    end = std::chrono::high_resolution_clock::now();
+    auto rbTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    printTime("RB Tree Range Query (Traversal)", rbTime);
+    
+    std::cout << "   Found " << rbResults.size() << " songs." << std::endl;
+}
+
