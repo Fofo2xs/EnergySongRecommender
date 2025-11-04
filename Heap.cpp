@@ -78,12 +78,68 @@ Song Heap::getMax() const{
 }
 
 //Print Songs
-void Heap::printAllSongs() const{
+void Heap::printAllSongs() const {
   for(const auto& song : heap){
     cout << song.getSongName() << " by " << song.getArtist()
     << " | Energy: " << song.getEnergy()
     << " | Genre: " << song.getGenre() << endl;
   }
 }
+
+void Heap::recommendTopNHeap(int n) {
+  if (heap.empty()) {
+    cout << "No songs available " << endl;
+    return;
+  }
+
+  if (n <= 0) {
+    return;
+  }
+
+  //Make copy of heap so heap doesn't get altered
+  Heap tempHeap = *this;
+
+  for (int i = 0; i < n && !tempHeap.isEmpty(); i++) {
+    Song top = tempHeap.extractMax();
+    cout << i + 1 << ". " << top.getSongName()
+         << " by " << top.getArtist()
+         << " | Energy: " << top.getEnergy()
+         << " | Genre: " << top.getGenre() << endl;
+  }
+}
+
+void Heap::findEnergyHeap(const string &songName, const string &artist) const {
+  for (auto& song : heap) {
+    if (song.getSongName() == songName && song.getArtist() == artist) {
+      cout << "Energy level of : " << song.getSongName() << " by " << song.getArtist()
+      << " is: " << song.getEnergy() << endl;
+      return;
+    }
+  }
+}
+
+void Heap::findSongInRange(double low, double high) const {
+  if (low < 0.0 || high > 1.0) {
+    cout << "Invalid input. Energy must be between 0.0 and 1.0" << endl;
+    return;
+  }
+
+  bool found = false;
+  for (auto& song : heap) {
+   double energy = song.getEnergy();
+    if (energy >= low && energy <= high) {
+      cout << song.getSongName() << " by " << song.getArtist() << " | Energy: " << energy
+      << " | Genre: " << song.getGenre() << endl;
+      found = true;
+    }
+  }
+  if (!found) {
+    cout << "No songs found in range" << endl;
+  }
+}
+
+
+
+
 
 

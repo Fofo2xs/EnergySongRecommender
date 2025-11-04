@@ -24,19 +24,20 @@ int main() {
     cout << "\n ------------- Menu ------------------------" << endl;
     cout << "1. View All Songs" << endl;
     cout << "2. Add New Song" << endl;
-    cout << "3. Delete Song" << endl;
-    cout << "4. Recommend Top N Songs by Energy Level" << endl;
-    cout << "5. Find Energy Level of a Song" <<  endl;
-    cout << "6. Find Songs in Range Query" << endl;
-    cout << "7. Compare Heap vs Red-Black Tree Performance" << endl;
-    cout << "8. Exit" << endl;
+    cout << "3. Recommend Top N Energetic Songs" << endl;
+    cout << "4. Find Energy Level of a Song" <<  endl;  //should enter name of song and artist
+    cout << "5. Find Songs in Range Query" << endl;
+    cout << "6. Compare Heap vs Red-Black Tree Performance" << endl;
+    cout << "7. Exit" << endl;
     cout << "---------------------------------------------" << endl;
 
     //songHeap.printAllSongs();
 
     while (true) {
+        cout << "\nSelect an option:" << endl;
         string option;
         cin >> option;
+
 
         if (option == "1") {
             songHeap.printAllSongs();
@@ -95,6 +96,23 @@ int main() {
 
         }
         else if (option == "3") {
+            int n;
+            while (true) {
+                cout << "Enter how many top energetic songs you want: " << endl;
+                string input;
+                cin >> input;
+
+                stringstream ss(input);
+                if (ss >> n && n > 0) {
+                    break;
+                }
+                else {
+                    cout << "Invalid input. Please enter a positive integer." << endl;
+                    cin.clear();
+                }
+            }
+            cout << "Top " << n << " Energetic Songs" << endl;
+            songHeap.recommendTopNHeap(n);
 
         }
         else if (option == "4") {
@@ -107,10 +125,8 @@ int main() {
 
         }
         else if (option == "7") {
-
-        }
-        else if (option == "8") {
             break;
+
         }
         else {
             cout <<  "Invalid Option" << endl;
