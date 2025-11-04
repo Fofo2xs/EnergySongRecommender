@@ -26,5 +26,10 @@ class Heap {
         bool isEmpty() const;
         int size() const;
         void printAllSongs() const;
+        vector<Song> recommendTopNHeap(int n) const;
+        double findEnergyHeap(const string &songName, const string &artist) const;
+        vector<Song> findSongInRange(double low, double high) const;
+
+
 
  };
