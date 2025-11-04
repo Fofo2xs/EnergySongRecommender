@@ -231,18 +231,21 @@ void RB::searchHelper(Node *node, const std::string& name, std::vector<Song> &re
 std::vector<Song> RB::topNenergy(int n, float l, float h) const {
     int count = 0;
     std::vector<Song> result;
-    printReverseInOrderHelper(root, l, h, count, n, result);
+    ReverseInOrderHelper(root, l, h, count, n, result);
+
+    return result;
 }
 
-void RB::printReverseInOrderHelper(Node* node, float l, float h, int& count, int n, std::vector<Song>& res) const{
+void RB::ReverseInOrderHelper(Node* node, float l, float h, int& count, int n, std::vector<Song>& res) const{
     if (node ==nil|| count >= n) {
         return;
     }
-    printReverseInOrderHelper(node->right, l, h, count, n, res);
+    ReverseInOrderHelper(node->right, l, h, count, n, res);
     if (count<n && node->song.getEnergy()>= l && node->song.getEnergy()<= h) {
         res.push_back(node->song);
+        count++;
     }
-    printReverseInOrderHelper(node->left, l, h, count, n, res);
+   ReverseInOrderHelper(node->left, l, h, count, n, res);
 }
 
 

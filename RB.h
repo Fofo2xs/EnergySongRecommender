@@ -38,7 +38,7 @@ class RB {
     void leftRotate(Node* node);//DONE
     void rightRotate(Node* node);//DONE
 
-    void printReverseInOrderHelper(Node* node, float low, float high, int& counter, int n, std::vector<Song>& res) const; //DONE
+    void ReverseInOrderHelper(Node* node, float low, float high, int& counter, int n, std::vector<Song>& res) const; //DONE
     void searchHelper(Node* node, const std::string& name,std::vector<Song>& result) const; //DONE
 
 
