@@ -16,11 +16,6 @@ class Heap {
         void heapifyUp(int index);
         void heapifyDown(int index);
 
-        //Sort heap alphebeitcally as well
-        bool greaterPriority(int i, int j) const;
-
-
-
     public:
         Heap();
 
@@ -31,10 +26,5 @@ class Heap {
         bool isEmpty() const;
         int size() const;
         void printAllSongs() const;
-        vector<Song> recommendTopNHeap(int n) const;
-        double findEnergyHeap(const string &songName, const string &artist) const;
-        vector<Song> findSongInRange(double low, double high) const;
-
-
 
  };

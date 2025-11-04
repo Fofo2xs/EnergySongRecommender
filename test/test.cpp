@@ -14,7 +14,7 @@ using namespace std;
 TEST_CASE("1. Test Song Loader", "[loader]") {
 
     SECTION("Loading the real dataset") {
-        vector<Song> songs = loadSongs("../dataset.csv");
+        vector<Song> songs = loadSongs("dataset.csv");
         
         REQUIRE(!songs.empty());
         REQUIRE(songs.size() > 0);
