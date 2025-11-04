@@ -204,54 +204,48 @@ void RB::balanceTree(Node *node) {
 
 
 std::vector<Song> RB::search(const string &name) {
-    std::cout << "Searching for " << name << std::endl;
-    std::vector<Node*> results;
-    searchHelper(root, name, results);
-    if (results.empty()) {
-        std::cout << "No song found" << std::endl;
-        return std::vector<Song>();
-    }
-    std::cout << "Songs found: "<<std::endl;
-    for (int i = 0; i < results.size(); ++i) {
-        if (results[i] != nil) {
+    std::string lowerName = name;
+    std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
+   // std::vector<Node*> results;
+    std::vector<Song> matches;
+    searchHelper(root, lowerName, matches);
 
-            std::cout<<std::endl;
-            std::cout<< i+1 <<". "<<std::endl;
-            std::cout<< results[i]->song.getSongName() << " by: " << results[i]->song.getArtist()<<std::endl;
-            std::cout<< "Energy Level: " << results[i]->song.getEnergy() << std::endl;
-        }
-    }
-    if (results.empty()) {}
-
-
+    return matches;
 }
 
-void RB::searchHelper(Node *node, const std::string& name, std::vector<Node *> &result) const {
+void RB::searchHelper(Node *node, const std::string& name, std::vector<Song> &result) const {
     if (node == nil) {
         return;
     }
-    if (node->song.getSongName() == name) {
-        result.push_back(node);
+    // std::string copySTR = name;
+    // std::transform(copySTR.begin(), copySTR.end(), copySTR.begin(), ::tolower);
+    std::string lowerSong = node->song.getSongName();
+    std::transform(lowerSong.begin(), lowerSong.end(), lowerSong.begin(), ::tolower);
+    if (lowerSong.find(name) != std::string::npos) {
+        result.push_back(node->song);
     }
     searchHelper(node->left, name, result);
     searchHelper(node->right, name, result);
 }
 
-void RB::topNenergy(int n, float l, float h) const {
+std::vector<Song> RB::topNenergy(int n, float l, float h) const {
     int count = 0;
-    printReverseInOrderHelper(root, l, h, count, n);
+    std::vector<Song> result;
+    ReverseInOrderHelper(root, l, h, count, n, result);
+
+    return result;
 }
 
-void RB::printReverseInOrderHelper(Node* node, float l, float h, int& count, int n) const{
+void RB::ReverseInOrderHelper(Node* node, float l, float h, int& count, int n, std::vector<Song>& res) const{
     if (node ==nil|| count >= n) {
         return;
     }
-    printReverseInOrderHelper(node->right, l, h, count, n);
+    ReverseInOrderHelper(node->right, l, h, count, n, res);
     if (count<n && node->song.getEnergy()>= l && node->song.getEnergy()<= h) {
-        std::cout << node->song.getEnergy() << " by: "<<node->song.getArtist()<<std::endl;
-        std::cout << "Energy Level: " << node->song.getEnergy() << std::endl;
+        res.push_back(node->song);
+        count++;
     }
-    printReverseInOrderHelper(node->left, l, h, count, n);
+   ReverseInOrderHelper(node->left, l, h, count, n, res);
 }
 
 

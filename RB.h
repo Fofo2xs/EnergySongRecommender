@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <regex>
-#include "../Song.h"
+#include "Song.h"
 
 enum Color{
     RED,
@@ -38,19 +38,17 @@ class RB {
     void leftRotate(Node* node);//DONE
     void rightRotate(Node* node);//DONE
 
-    void printReverseInOrderHelper(Node* node, float low, float high, int& counter, int n) const; //DONE
-    void searchHelper(Node* node, const std::string& name,std::vector<Node*>& result) const;
-    Node* removeHelper(Node* node,std::string& ufid ,bool& erased);
-    Node* findMin(Node* node);
-    void inOrder(Node* node, std::vector<std::string>& vec);
+    void ReverseInOrderHelper(Node* node, float low, float high, int& counter, int n, std::vector<Song>& res) const; //DONE
+    void searchHelper(Node* node, const std::string& name,std::vector<Song>& result) const; //DONE
+
 
 public:
-    //the user will have access to all these public methods
+
     RB();
 
     void insert(const Song& song); //DONE
-    std::vector<Song> search(const string& name);
-    void topNenergy(int n, float l, float h) const; //DONE
+    std::vector<Song> search(const string& name);//DONE
+    std::vector<Song> topNenergy(int n, float l, float h) const; //DONE
 
     RB(const RB& obj);
     //RB& operator=(const RB& obj);
