@@ -115,35 +115,28 @@ TEST_CASE("2. Test Heap Operations", "[heap]") {
 
 TEST_CASE("3. Test Red-Black Tree Operations", "[rb]") {
 
-    // --- Test Fixtures ---
     Song s_a_05("Song A", "Artist 1", 0.5, "Genre");
     Song s_b_03("Song B", "Artist 2", 0.3, "Genre");
     Song s_c_07("Song C", "Artist 3", 0.7, "Genre");
     Song s_d_05("Song D", "Artist 4", 0.5, "Genre"); // Duplicate energy
     Song s_a_09("Song A", "Artist 5", 0.9, "Genre"); // Duplicate name
-    // ---------------------
 
     SECTION("Empty Tree Search") {
         RB tree;
         std::vector<Song> results = tree.search("Non-existent");
-        // NOTE: This assumes the search function correctly returns an empty vector
-        // if no results are found (which the provided rb.cpp code does).
         REQUIRE(results.empty());
     }
 
     SECTION("Insert Multiple and Search for Duplicate Names") {
         RB tree;
-        tree.insert(s_a_05); // ("Song A", 0.5)
-        tree.insert(s_b_03); // ("Song B", 0.3)
-        tree.insert(s_a_09); // ("Song A", 0.9)
+        tree.insert(s_a_05);
+        tree.insert(s_b_03);
+        tree.insert(s_a_09);
 
         std::vector<Song> results = tree.search("Song A");
 
-        // NOTE: These tests will fail until rb.cpp's search() function
-        // is fixed to return the vector of found songs.
         REQUIRE(results.size() == 2);
 
-        // Check that both songs are present. Order is not guaranteed.
         bool found05 = false;
         bool found09 = false;
         for (const auto& song : results) {
@@ -163,7 +156,7 @@ TEST_CASE("3. Test Red-Black Tree Operations", "[rb]") {
         REQUIRE(results.empty());
     }
 
-    SECTION("Test Balancing with Sorted Inserts (Implicit Test)") {
+    SECTION("Test Balancing with Sorted Insert") {
         RB tree;
         Song s1("s1", "a", 0.1, "g");
         Song s2("s2", "a", 0.2, "g");
@@ -171,20 +164,16 @@ TEST_CASE("3. Test Red-Black Tree Operations", "[rb]") {
         Song s4("s4", "a", 0.4, "g");
         Song s5("s5", "a", 0.5, "g");
         
-        // Insert in ascending order (worst case for simple BST)
         tree.insert(s1); 
         tree.insert(s2); 
         tree.insert(s3); 
         tree.insert(s4); 
         tree.insert(s5);
         
-        // Test that searching still works correctly, implying balancing occurred.
         std::vector<Song> r1 = tree.search("s1");
         std::vector<Song> r3 = tree.search("s3");
         std::vector<Song> r5 = tree.search("s5");
 
-        // NOTE: These tests will fail until rb.cpp's search() function
-        // is fixed to return the vector of found songs.
         REQUIRE(r1.size() == 1);
         if (r1.size() == 1) REQUIRE(r1[0].getEnergy() == 0.1);
         
@@ -193,31 +182,5 @@ TEST_CASE("3. Test Red-Black Tree Operations", "[rb]") {
 
         REQUIRE(r5.size() == 1);
         if (r5.size() == 1) REQUIRE(r5[0].getEnergy() == 0.5);
-    }
-
-    SECTION("Test topNenergy (Visual Check)") {
-        RB tree;
-        tree.insert(s_a_05); // 0.5
-        tree.insert(s_b_03); // 0.3
-        tree.insert(s_c_07); // 0.7
-        tree.insert(s_d_05); // 0.5
-        tree.insert(s_a_09); // 0.9
-
-        // This function prints to cout, so we can't use REQUIRE.
-        // We use SUCCEED() to mark the test as passed and print instructions.
-        std::cout << "\n--- Visual Check for topNenergy ---" << std::endl;
-        
-        std::cout << "\n[Test] topNenergy(3, 0.0, 1.0) - Should show 3 songs, highest energy first (0.9, 0.7, 0.5)" << std::endl;
-        tree.topNenergy(3, 0.0, 1.0);
-        
-        std::cout << "\n[Test] topNenergy(2, 0.4, 0.8) - Should show 2 songs (0.7, 0.5)" << std::endl;
-        tree.topNenergy(2, 0.4, 0.8);
-        
-        std::cout << "\n[Test] topNenergy(5, 0.0, 0.4) - Should show 1 song (0.3)" << std::endl;
-        tree.topNenergy(5, 0.0, 0.4);
-        
-        std::cout << "\n--- End Visual Check ---" << std::endl;
-        
-        SUCCEED("topNenergy tests called. Please check console output for correctness.");
     }
 }
