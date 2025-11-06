@@ -68,45 +68,45 @@ RB::RB() {
 
 }
 void RB::leftRotate(Node *node) {
-    std::cout << "leftRotate called with node: " << node << std::endl;
-    std::cout << "node->parent: " << node->parent << std::endl;
-    std::cout << "node->right: " << node->right << std::endl;
-    std::cout << "nil: " << nil << std::endl;
+   // std::cout << "leftRotate called with node: " << node << std::endl;
+    //std::cout << "node->parent: " << node->parent << std::endl;
+    //std::cout << "node->right: " << node->right << std::endl;
+    //std::cout << "nil: " << nil << std::endl;
 
     Node* newroot = nullptr;
     if (node == nil || node->right == nil) {
-        std::cout << "Early return from leftRotate" << std::endl;
+       // std::cout << "Early return from leftRotate" << std::endl;
         return;
     }
-    std::cout << "Setting newroot" << std::endl;
+    //std::cout << "Setting newroot" << std::endl;
     newroot = node->right;
 
-    std::cout << "Setting node->right" << std::endl;
+   // std::cout << "Setting node->right" << std::endl;
     node->right = newroot->left;
 
-    std::cout << "Checking newroot->left" << std::endl;
+    //std::cout << "Checking newroot->left" << std::endl;
     if (newroot->left != nil) {
         newroot->left->parent = node;
     }
-    std::cout << "Setting newroot->parent" << std::endl;
+   // std::cout << "Setting newroot->parent" << std::endl;
     newroot->parent = node->parent;//attach the new root to the parent of the rotated node
 
-    std::cout << "Checking node->parent" << std::endl;
+   // std::cout << "Checking node->parent" << std::endl;
     if (node->parent == nil) {//node was the root
         root = newroot;
     }
     else if (node == node->parent->right) {
-        std::cout << "node is right child" << std::endl;
+        //std::cout << "node is right child" << std::endl;
         node->parent->right = newroot;
     }
     else {
-        std::cout << "node is left child" << std::endl;
+       // std::cout << "node is left child" << std::endl;
         node->parent->left = newroot;
     }
-    std::cout << "Final assignments" << std::endl;
+    //std::cout << "Final assignments" << std::endl;
     newroot->left = node;
     node->parent = newroot; // now the parent of the rotated node points to the created new root of the subtree
-    std::cout << "leftRotate completed" << std::endl;
+   // std::cout << "leftRotate completed" << std::endl;
 
 }
 
@@ -288,7 +288,7 @@ void RB::printTrace(Node* node, int depth) {
     printTrace(node->right, depth+2);
 }
 
-RB::Node * RB::helperCopy(Node *rhs) {
-}
+//RB::Node * RB::helperCopy(Node *rhs) {
+//}
 
 

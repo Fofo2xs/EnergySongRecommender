@@ -23,12 +23,11 @@ void menu(){
     cout << "\n ------------- Menu ------------------------" << endl;
     cout << "1. View All Songs" << endl;
     cout << "2. Add New Song" << endl;
-    cout << "3. Delete Song" << endl;
-    cout << "4. Recommend Top N Songs by Energy Level" << endl;
-    cout << "5. Find Energy Level of a Song" <<  endl;
-    cout << "6. Find Songs in Range Query" << endl;
-    cout << "7. Compare Heap vs Red-Black Tree Performance" << endl;
-    cout << "8. Exit" << endl;
+    cout << "3. Recommend Top N Songs by Energy Level" << endl;
+    cout << "4. Find Energy Level of a Song" <<  endl;
+    cout << "5. Find Songs in Range Query" << endl;
+    cout << "6. Compare Heap vs Red-Black Tree Performance" << endl;
+    cout << "7. Exit" << endl;
     cout << "---------------------------------------------" << endl;
     }
 
@@ -47,7 +46,7 @@ int main() {
         redblacktree.insert(song);
     }
     //songHeap.printAllSongs();
-
+    menu();
     while (true) {
         string option;
         cin >> option;
@@ -127,11 +126,13 @@ int main() {
                 }
 
                 //Create song object
+
                 Song newSong (songName, artist, energy, genre);
 
                 songs.push_back(newSong);
 
                 //Add to Heap structure
+                //ADD PERFORMANCE TIME
                 songHeap.insert(newSong);
 
                 //Add to Red Black Tree Data Structure
@@ -145,13 +146,10 @@ int main() {
             }
             menu();
         }
-        else if (option == "3") {
 
-        }
-        else if (option == "4") {
+        else if (option == "3") {
           int n;
           std::cout<<"Enter Number of Songs: "<<std::endl;
-          std::cin>>n;
             if (!(std::cin >> n) || n <= 0) {
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
@@ -162,8 +160,6 @@ int main() {
           float l;
           float h;
           std::cout<<"Enter Desired Energy Range Level (two numbers between 0.0 and 1.0, both inclusive): "<<std::endl;
-          std::cin>>l;
-          std::cin>>h;
           if (!(std::cin >> l) || !(std::cin >> h) || l < 0 || h < 0 || l > h) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
@@ -199,9 +195,41 @@ int main() {
               }
               ///////////////////////////////////////////******Red Black Tree search*******//////////////////////////////////////////////
             }
+            //////////////////////////////////////////    /Heap /////////////////////
+            vector<Song> sonsInRange = songHeap.findSongInRange(l,h);
+
+            cout << "-------------- Heap Results ----------------" <<endl;
+            // ADD IN PERFORMANCE TIME
+            Heap rangeHeap;
+            for (auto& song: sonsInRange) {
+                rangeHeap.insert(song);
+            }
+
+            vector <Song> topSongs = rangeHeap.recommendTopNHeap(n);
+            if (topSongs.empty()) {
+                cout << "No songs found with the specified range."<<endl;
+            }
+            else {
+                if (topSongs.size()<n) {
+                    cout << "Found only "<< topSongs.size()<<" songs."<<endl;
+                }
+                else {
+                    cout << "Top "<<n<<" songs."<<endl;
+                    cout << endl;
+                }
+
+                for (auto i = 0; i<topSongs.size(); i++) {
+                    cout << i+1<<". ";
+                    cout << topSongs[i].getSongName()<<" by: "<< topSongs[i].getArtist()<<endl;
+                    cout << "Energy level: "<<topSongs[i].getEnergy()<<endl;
+                    cout << endl;
+                }
+            }
+
+
 
         }
-        else if (option == "5") {
+        else if (option == "4") {
 
           std::cout << "Type the name of the song or what you remember..."<<std::endl;
           std::string input;
@@ -261,13 +289,13 @@ int main() {
 /////////////////////////////////////////******End of Red Black Tree search*******////////////////////////////////////////////////////
           }
         }
+        else if (option == "5") {
+
+        }
         else if (option == "6") {
 
         }
         else if (option == "7") {
-
-        }
-        else if (option == "8") {
             break;
         }
         else {

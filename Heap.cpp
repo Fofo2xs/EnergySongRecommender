@@ -41,12 +41,36 @@ void Heap::insert(const Song& song){
 
 }
 
+bool Heap::greaterPriority(int i, int j) const {
+    if (heap[i].getEnergy() > heap[j].getEnergy()) {
+        return true;
+    }
 
-void Heap::heapifyUp(int index){
- while(index > 0 && heap[parent(index)].getEnergy() < heap[index].getEnergy()){
-   swap(heap[parent(index)],heap[index]);
-   index = parent(index);
- }
+    if (heap[i].getEnergy() == heap[j].getEnergy() && heap[i].getSongName() > heap[j].getSongName()) {
+        return true;
+    }
+    return false;
+}
+
+void Heap::heapifyUp(int index) {
+    while(index > 0 ) {
+        int parentIndex = parent(index);
+        const Song& currentSong = heap[index];
+        const Song& parentSong = heap[parentIndex];
+        if (currentSong.getEnergy() > parentSong.getEnergy()){
+            swap(heap[parentIndex],heap[index]);
+            index = parent(index);
+        }
+
+        //Heap sorted with song names
+        else if (currentSong.getEnergy() == parentSong.getEnergy() && (currentSong.getSongName() > parentSong.getSongName())) {
+            swap(heap[parentIndex],heap[index]);
+            index = parentIndex;
+        }
+        else {
+            break;
+        }
+    }
 }
 
 
@@ -56,10 +80,10 @@ void Heap::heapifyDown(int index){
  int rightChild = right(index);
 
 
- if (leftChild < heap.size() && heap[leftChild].getEnergy() > heap[largest].getEnergy()){
+ if (leftChild < heap.size() && greaterPriority(leftChild, largest)) {
    largest = leftChild;
  }
- if (rightChild < heap.size() && heap[rightChild].getEnergy() > heap[largest].getEnergy()){
+ if (rightChild < heap.size() && greaterPriority(rightChild, largest)) {
    largest = rightChild;
  }
  if(largest != index){
