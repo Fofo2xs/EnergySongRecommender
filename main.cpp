@@ -24,14 +24,15 @@ void menu(){
     cout << "\n------------ Amplify!!!! -------------------" << endl;
     cout << "Song Recommender Based on Energy " << endl;
     cout << "\n ------------- Menu ------------------------" << endl;
-    cout << "1. View All Songs" << endl;
-    cout << "2. Add New Song" << endl;
-    cout << "3. Delete Song" << endl;
-    cout << "4. Recommend Top N Songs by Energy Level" << endl;
-    cout << "5. Find Energy Level of a Song" <<  endl;
-    cout << "6. Find Songs in Range Query" << endl;
-    cout << "7. Compare Heap vs Red-Black Tree Performance" << endl;
-    cout << "8. Exit" << endl;
+    cout << "1. View 20 Random songs." << endl;
+    cout << "2. View Playlist Statistics." << endl;
+    cout << "3. Add New Song" << endl;
+    cout << "4. Delete Song" << endl;
+    cout << "5. Recommend Top N Songs by Energy Level" << endl;
+    cout << "6. Find Energy Level of a Song" <<  endl;
+    cout << "7. Find Songs in Range Query" << endl;
+    cout << "8. Compare Heap vs Red-Black Tree Performance" << endl;
+    cout << "9. Exit" << endl;
     cout << "---------------------------------------------" << endl;
     }
 
