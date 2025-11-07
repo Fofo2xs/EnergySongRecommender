@@ -25,11 +25,11 @@ void menu(){
     cout << "Song Recommender Based on Energy " << endl;
     cout << "\n ------------- Menu ------------------------" << endl;
     cout << "1. View All Songs" << endl;
-    cout << "2. Add New Song" << endl;
-    cout << "3. Delete Song" << endl;
-    cout << "4. Recommend Top N Songs by Energy Level" << endl;
-    cout << "5. Find Energy Level of a Song" <<  endl;
-    cout << "6. Find Songs in Range Query" << endl;
+    cout << "2. Statistics " << endl;
+    cout << "3. Add New Song" << endl;
+    cout << "4. Recommend Top N Songs by Energy Level" << endl; 
+    cout << "5. Find Songs in Range Query" << endl;
+    cout << "6. Find Energy Level of a Song" <<  endl;
     cout << "7. Compare Heap vs Red-Black Tree Performance" << endl;
     cout << "8. Exit" << endl;
     cout << "---------------------------------------------" << endl;
@@ -141,7 +141,6 @@ int main() {
             cout << "[Song Name], [Artist], [Energy Level], [Genre]" << endl;
             cin.ignore();
             while (true) {
-//                cin.ignore();
                 string input;
                 cout << "Enter Song Details (or enter cancel to go back): " << endl;
                 getline(cin, input);
@@ -226,10 +225,8 @@ int main() {
             }
             menu();
         }
-        else if (option == "4") {
 
-        }
-        else if (option == "5") {
+        else if (option == "4") {
           int n;
           std::cout<<"Enter Number of Songs: "<<std::endl;
             if (!(std::cin >> n) || n <= 0) {
@@ -309,10 +306,12 @@ int main() {
                 }
             }
 
+            menu();
+
 
 
         }
-        else if (option == "6") {
+        else if (option == "5") {
 
           std::cout << "Type the name of the song or what you remember..."<<std::endl;
           std::string input;
@@ -372,17 +371,17 @@ int main() {
 /////////////////////////////////////////******End of Red Black Tree search*******////////////////////////////////////////////////////
           }
         }
-        else if (option == "7") {
+        else if (option == "6") {
 
         }
-        else if (option == "8") {
+        else if (option == "7") {
             cout << "--- Compare Heap vs Red-Black Tree Performance ---" << endl;
             
             Performance::testInsertion(songs); 
             Performance::testTopNRetrieval(songs, 10); 
             Performance::testRangeQuery(songs, 0.4f, 0.6f);
         }
-        else if (option == "9") {
+        else if (option == "8") {
             break;
         }
         else {
