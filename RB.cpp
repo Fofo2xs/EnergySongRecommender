@@ -247,6 +247,7 @@ void RB::ReverseInOrderHelper(Node* node, float l, float h, int& count, int n, s
     }
    ReverseInOrderHelper(node->left, l, h, count, n, res);
 }
+/////////////-----------------Main: option 2-----------/////////////////
 Song RB::findMinEnergy() {
     Node* node = findMinEnergyHelper(root);
     return node->song;
@@ -374,7 +375,7 @@ Song RB::findMaxEnergy() {
     Node* node = findMaxEnergyHelper(root);
     return node->song;
 }
-
+/////////////-----------------Main: option 2-----------/////////////////
 
 
 void RB::destructorHelper(Node *node) {
