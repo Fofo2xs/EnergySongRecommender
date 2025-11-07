@@ -3,6 +3,9 @@
 //
 #include "RB.h"
 #include "Song.h"
+#include <ctime>
+#include <cstdlib>
+#include <set>
 
 RB::RB() {
     nil = new Node();
@@ -68,45 +71,45 @@ RB::RB() {
 
 }
 void RB::leftRotate(Node *node) {
-    std::cout << "leftRotate called with node: " << node << std::endl;
-    std::cout << "node->parent: " << node->parent << std::endl;
-    std::cout << "node->right: " << node->right << std::endl;
-    std::cout << "nil: " << nil << std::endl;
+   // std::cout << "leftRotate called with node: " << node << std::endl;
+    //std::cout << "node->parent: " << node->parent << std::endl;
+    //std::cout << "node->right: " << node->right << std::endl;
+    //std::cout << "nil: " << nil << std::endl;
 
     Node* newroot = nullptr;
     if (node == nil || node->right == nil) {
-        std::cout << "Early return from leftRotate" << std::endl;
+       // std::cout << "Early return from leftRotate" << std::endl;
         return;
     }
-    std::cout << "Setting newroot" << std::endl;
+    //std::cout << "Setting newroot" << std::endl;
     newroot = node->right;
 
-    std::cout << "Setting node->right" << std::endl;
+   // std::cout << "Setting node->right" << std::endl;
     node->right = newroot->left;
 
-    std::cout << "Checking newroot->left" << std::endl;
+    //std::cout << "Checking newroot->left" << std::endl;
     if (newroot->left != nil) {
         newroot->left->parent = node;
     }
-    std::cout << "Setting newroot->parent" << std::endl;
+   // std::cout << "Setting newroot->parent" << std::endl;
     newroot->parent = node->parent;//attach the new root to the parent of the rotated node
 
-    std::cout << "Checking node->parent" << std::endl;
+   // std::cout << "Checking node->parent" << std::endl;
     if (node->parent == nil) {//node was the root
         root = newroot;
     }
     else if (node == node->parent->right) {
-        std::cout << "node is right child" << std::endl;
+        //std::cout << "node is right child" << std::endl;
         node->parent->right = newroot;
     }
     else {
-        std::cout << "node is left child" << std::endl;
+       // std::cout << "node is left child" << std::endl;
         node->parent->left = newroot;
     }
-    std::cout << "Final assignments" << std::endl;
+    //std::cout << "Final assignments" << std::endl;
     newroot->left = node;
     node->parent = newroot; // now the parent of the rotated node points to the created new root of the subtree
-    std::cout << "leftRotate completed" << std::endl;
+   // std::cout << "leftRotate completed" << std::endl;
 
 }
 
@@ -247,21 +250,167 @@ void RB::ReverseInOrderHelper(Node* node, float l, float h, int& count, int n, s
     }
    ReverseInOrderHelper(node->left, l, h, count, n, res);
 }
+/////////////-----------------Main: option 2-----------/////////////////
+Song RB::findMinEnergy() {
+    Node* node = findMinEnergyHelper(root);
+    return node->song;
+}
+RB::Node* RB::findMinEnergyHelper(Node* node) {
+
+    if (node == nil) {
+        throw std::runtime_error("Tree is empty");
+    }
+    if (node->left== nil) {
+        return node;
+    }
+    return findMinEnergyHelper(node->left);
+}
+RB::Node* RB::findMaxEnergyHelper(Node *node) {
+    if (node == nil) {
+        throw std::runtime_error("Tree is empty");
+    }
+    if (node->right== nil) {
+        return node;
+    }
+    return findMaxEnergyHelper(node->right);
+}
+
+void RB::calculateAverageHelper(Node *node, int& n, double& sum) {
+
+    if (node == nil) {
+        return;
+    }
+    calculateAverageHelper(node->left,n, sum);
+    sum+= node->song.getEnergy();
+    n++;
+    calculateAverageHelper(node->right,n, sum);
+
+}
+
+void RB::getDataHelper(Node *node, std::map<std::string, std::pair<double, int>> &res, bool genre) {
+    if (node == nil) {
+        return;
+    }
+    getDataHelper(node->left, res, genre);
+    std::string key = (genre)?node->song.getGenre():node->song.getArtist();
+    res[key].first += node->song.getEnergy();
+    res[key].second++;
+
+    getDataHelper(node->right, res,genre);
+}
 
 
+std::pair<std::string, double> RB::getMostEnergeticGenre() {
+    if (root == nil) {
+        return std::make_pair("", 0);
+    }
+    std::map<std::string, std::pair<double, int>> res;
+    getDataHelper(root, res, true);
+    if (res.empty()) {
+        return std::make_pair("", 0);
+    }
+    std::string topGenre = res.begin()->first;
+    double topAvg = res.begin()->second.first/res.begin()->second.second;
+    for (const auto& p : res) {
+        double newAvg = p.second.first/p.second.second;
+        if (newAvg > topAvg) {
+            topAvg = newAvg;
+            topGenre = p.first;
+        }
+    }
+return std::make_pair(topGenre, topAvg);
 
-// RB::~RB() {
-//     destructorHelper(root);
-//     if (nil != nullptr) {
-//         delete nil;
-//         nil = nullptr;
-//     }
-//
-//     root = nullptr;
-//
-//     std::cout << "deleted\n";
-// }
+}
 
+std::pair<std::string, double> RB::getMostEnergeticArtist() {
+    if (root == nil) {
+        return std::make_pair("", 0);
+    }
+
+    std::map<std::string, std::pair<double, int>> res;
+    getDataHelper(root, res, false);
+    if (res.empty()) {
+        return std::make_pair("", 0);
+    }
+    std::string topArt = res.begin()->first;
+    double topAvg = res.begin()->second.first/res.begin()->second.second;
+    for (const auto& p : res) {
+        double newAvg = p.second.first/p.second.second;
+        if (newAvg > topAvg) {
+            topAvg = newAvg;
+            topArt = p.first;
+        }
+    }
+    return {topArt, topAvg};
+}
+
+std::map<std::string, int> RB::getGenreCount() {
+    std::map<std::string, int> res;
+    std::map<std::string, std::pair<double,int>> dat;
+    getDataHelper(root, dat, true);
+    for (const auto& p : dat) {
+        res[p.first]=p.second.second;
+    }
+    return res;
+}
+
+std::map<std::string, int> RB::getArtistCount() {
+    std::map<std::string, int> res;
+    std::map<std::string, std::pair<double,int>> dat;
+    getDataHelper(root, dat, false);
+    for (const auto& p : dat) {
+        res[p.first]=p.second.second;
+    }
+    return res;
+}
+
+double RB::calculateAverage() {
+    if (root == nil) {
+        return 0.0;
+    }
+    int num = 0;
+    double sum = 0.0;
+    calculateAverageHelper(root, num, sum);
+    return sum/num;
+
+}
+
+Song RB::findMaxEnergy() {
+    Node* node = findMaxEnergyHelper(root);
+    return node->song;
+}
+/////////////-----------------Main: option 2-----------/////////////////
+///
+///
+////////////------------------Main: option 1--------------////////////////
+void RB::getRandomSongsHelper(Node *node, std::vector<Song *> &res) const {
+    if (node == nil) {
+        return;
+    }
+    getRandomSongsHelper(node->left, res);
+    res.push_back(&node->song);
+    getRandomSongsHelper(node->right, res);
+}
+
+std::vector<Song *> RB::getRandomSongs(int n) {
+    std::vector<Song *> songs;
+    getRandomSongsHelper(root, songs);
+    std::vector<Song *> res;
+    if (songs.empty()) {
+        return res;
+    }
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    std::set<int> indexes;
+    while (indexes.size() < n) {
+        int i = std::rand() % songs.size();
+        if (indexes.find(i) == indexes.end()) {
+            indexes.insert(i);
+            res.push_back(songs[i]);
+        }
+    }
+    return res;
+}
+////////////------------------Main: option 1--------------////////////////
 void RB::destructorHelper(Node *node) {
     if (node == nil) {
         return;
@@ -288,7 +437,6 @@ void RB::printTrace(Node* node, int depth) {
     printTrace(node->right, depth+2);
 }
 
-RB::Node * RB::helperCopy(Node *rhs) {
-}
-
+//RB::Node * RB::helperCopy(Node *rhs) {
+//}
 

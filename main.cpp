@@ -7,6 +7,8 @@
 #include <limits>
 #include <chrono>
 #include <stdexcept>
+#include <iomanip>
+#include <cmath>
 #include "Performance.h"
 
 using namespace std;
@@ -23,14 +25,13 @@ void menu(){
     cout << "\n------------ Amplify!!!! -------------------" << endl;
     cout << "Song Recommender Based on Energy " << endl;
     cout << "\n ------------- Menu ------------------------" << endl;
-    cout << "1. View All Songs" << endl;
-    cout << "2. Add New Song" << endl;
-    cout << "3. Delete Song" << endl;
+    cout << "1. View 20 Random songs." << endl;
+    cout << "2. View Playlist Statistics." << endl;
+    cout << "3. Add New Song" << endl;
     cout << "4. Recommend Top N Songs by Energy Level" << endl;
     cout << "5. Find Energy Level of a Song" <<  endl;
-    cout << "6. Find Songs in Range Query" << endl;
-    cout << "7. Compare Heap vs Red-Black Tree Performance" << endl;
-    cout << "8. Exit" << endl;
+    cout << "6. Compare Heap vs Red-Black Tree Performance" << endl;
+    cout << "7. Exit" << endl;
     cout << "---------------------------------------------" << endl;
     }
 
@@ -48,17 +49,150 @@ int main() {
         songHeap.insert(song);
         redblacktree.insert(song);
     }
-    //songHeap.printAllSongs();
 
+    menu();
     while (true) {
         string option;
         cin >> option;
 
         if (option == "1") {
-            songHeap.printAllSongs();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+          char choice = 'y';
+          std::string input;
+          while ( choice == 'y' || choice == 'Y') {
+              std::cout << "Displaying 2O random songs"<< std::endl;
+              ///////////////---------Red Black Tree-------------////////////////
+              std::vector<Song*> randSongs = redblacktree.getRandomSongs(20);
+              if(randSongs.empty()){
+                  std::cout << "No songs found" << std::endl;
+                  break;
+              }
+              for (int i = 0; i < randSongs.size(); i++) {
+                  std::string mood;
+                  double energy = std::round(randSongs[i]->getEnergy()*100.0)/100.0;
+                  if (energy>=0 && energy <= 0.29) {
+                      mood = "Chillout";
+                  }
+                  else if(energy > 0.29 && energy <= 0.49)
+                  {
+                      mood = "Pleasant";
+                  }
+                  else if (energy > 0.49 && energy <= 0.69)
+                      mood = "Moderate";
+                  else if (energy > 0.69 && energy <= 0.89)
+                  { mood = "Energetic";}
+                  else
+                  {mood = "Pure Hype";}
+                  std::cout<< i +1<<". ";
+                  std::cout << randSongs[i]->getSongName() << " by: "<<randSongs[i]->getArtist();
+                  std::cout<<" ["<<randSongs[i]->getGenre()<<"] "<< "(Energy: "<<std::fixed<<setprecision(2)<<randSongs[i]->getEnergy()<<") "<< mood<<std::endl;
+              }
+              while(true){
+                  std::cout << std::endl;
+                  std::cout << "Would you like to view 20 other Random songs? (y/n): "<<std::endl;
+                  std::getline(std::cin,input);
+                  auto lowerSTR = [](std::string& str){
+                      std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+                  };
+                  if (input.empty()) {
+                     // lowerSTR(input);
+                     continue;
+                  }
+                  lowerSTR(input);
+                  if (input == "y"|| input == "yes") {
+                      choice = 'y';
+                      break;
+                  }
+                  else if (input == "n"|| input == "no") {
+                      choice = 'n';
+                      break;
+                  }
+                  else {
+                      std::cout<< "Invalid argument. Please input your answer as y/n."<<std::endl;
+                  }
+              }
+          }
+        }
+        else if (option == "2") {
+            //songHeap.printAllSongs();
+            std::cout<< "Average Energy level in the playlist: ";
+            double averageEnergy = redblacktree.calculateAverage();//1
+            cout << averageEnergy << endl;
+            std::cout << endl;
+
+            std::cout << "Song with the HIGHEST energy level: ";
+            Song max = redblacktree.findMaxEnergy();//3
+            std::cout << max.getSongName() <<" by: "<<max.getArtist()<< endl;
+            std::cout <<"Energy level: "<< max.getEnergy() << std::endl;
+            std::cout<<std::endl;
+
+
+
+            std::cout << "Song with the LOWEST energy level: ";
+            Song min = redblacktree.findMinEnergy(); //2
+            std::cout << min.getSongName() <<" by: "<<min.getArtist()<< endl;
+            std::cout <<"Energy level: "<< min.getEnergy() << std::endl;
+            std::cout<<std::endl;
+
+
+            std::cout<<"Top 5 Genres: "<<std::endl;
+            std::map<std::string, int> genres = redblacktree.getGenreCount();
+            std::vector<std::pair<std::string, int> > genresVector(genres.begin(), genres.end());
+            auto sort1 = [](const std::pair<std::string, int>& a, const std::pair<std::string, int>& b){
+              return a.second>b.second;
+
+              };
+            std::sort(genresVector.begin(), genresVector.end(), sort1);
+            size_t minNum= std::min(genresVector.size(),static_cast<size_t>(5));
+            for (size_t i = 0;i<minNum;i++){
+              std::cout<<i+1<<". "<<genresVector[i].first<<std::endl;
+              std::cout<<"Songs: "<<genresVector[i].second;
+              std::cout<<" ("<<std::fixed<<setprecision(1)<<genresVector[i].second*100/songs.size()<<"%)"<<std::endl;
+              //std::cout<<std::endl;
+            }
+            std::cout << "Out of " << genres.size() << " genres." << std::endl;
+            std::cout<<std::endl;
+
+            std::cout<<"Top 5 Artists: "<<std::endl;
+            std::map<std::string, int> artists = redblacktree.getArtistCount();
+            std::vector<std::pair<std::string, int> > artistsVector(artists.begin(), artists.end());
+
+            std::sort(artistsVector.begin(), artistsVector.end(), sort1);
+            size_t minNum2= std::min(artistsVector.size(),static_cast<size_t>(5));
+            for (size_t i = 0;i<minNum2;i++){
+                std::cout<<i+1<<". "<<artistsVector[i].first<<std::endl;
+                std::cout<<"Songs: "<<artistsVector[i].second;
+                std::cout<<" ("<<std::fixed<<setprecision(1)<<artistsVector[i].second*100/songs.size()<<"%)"<<std::endl;
+                std::cout<<std::endl;
+            }
+            std::cout << "Out of " << artists.size() << " artists." << std::endl;
+            std::cout<<std::endl;
+
+            std::cout<< "Most Energetic Genre: "<<std::endl;
+            std::pair<std::string, double> genre = redblacktree.getMostEnergeticGenre();//5
+            if (!genre.first.empty()){
+                std::cout<< genre.first<<std::endl;
+                std::cout<<"Average Energy Level: "<<std::fixed<<setprecision(2)<< genre.second<<std::endl;
+                std::cout << std::endl;
+            }
+            else{
+              std::cout<<"No data available."<<std::endl;
+              }
+
+            std::cout<< "Most Energetic Artist: "<<std::endl;
+            std::pair<std::string, double> artist = redblacktree.getMostEnergeticArtist();//4
+            if (!artist.first.empty()){
+                std::cout<< artist.first<<std::endl;
+                std::cout<<"Average Energy Level: "<< std::fixed<<setprecision(2)<<artist.second<<std::endl;
+                std::cout << std::endl;
+            }
+            else{
+                std::cout<<"No data available."<<std::endl;
+            }
+            menu();
         }
 
-        else if (option == "2") {
+        else if (option == "3") {
            cout << "Song can be added by this format: " << endl;
             cout << "[Song Name], [Artist], [Energy Level], [Genre]" << endl;
             cin.ignore();
@@ -134,6 +268,7 @@ int main() {
                 songs.push_back(newSong);
 
                 //Add to Heap structure
+                //ADD PERFORMANCE
                 songHeap.insert(newSong);
 
                 //Add to Red Black Tree Data Structure
@@ -147,13 +282,10 @@ int main() {
             }
             menu();
         }
-        else if (option == "3") {
 
-        }
         else if (option == "4") {
           int n;
           std::cout<<"Enter Number of Songs: "<<std::endl;
-          std::cin>>n;
             if (!(std::cin >> n) || n <= 0) {
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
@@ -164,8 +296,7 @@ int main() {
           float l;
           float h;
           std::cout<<"Enter Desired Energy Range Level (two numbers between 0.0 and 1.0, both inclusive): "<<std::endl;
-          std::cin>>l;
-          std::cin>>h;
+
           if (!(std::cin >> l) || !(std::cin >> h) || l < 0 || h < 0 || l > h) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
@@ -201,6 +332,37 @@ int main() {
               }
               ///////////////////////////////////////////******Red Black Tree search*******//////////////////////////////////////////////
             }
+            
+            //////////////////////////////////////////    /Heap ////////////////////////////////
+            vector<Song> sonsInRange = songHeap.findSongInRange(l,h);
+
+            cout << "-------------- Heap Results ----------------" <<endl;
+            // ADD IN PERFORMANCE TIME
+            Heap rangeHeap;
+            for (auto& song: sonsInRange) {
+                rangeHeap.insert(song);
+            }
+
+            vector <Song> topSongs = rangeHeap.recommendTopNHeap(n);
+            if (topSongs.empty()) {
+                cout << "No songs found with the specified range."<<endl;
+            }
+            else {
+                if (topSongs.size()<n) {
+                    cout << "Found only "<< topSongs.size()<<" songs."<<endl;
+                }
+                else {
+                    cout << "Top "<<n<<" songs."<<endl;
+                    cout << endl;
+                }
+
+                for (auto i = 0; i<topSongs.size(); i++) {
+                    cout << i+1<<". ";
+                    cout << topSongs[i].getSongName()<<" by: "<< topSongs[i].getArtist()<<endl;
+                    cout << "Energy level: "<<topSongs[i].getEnergy()<<endl;
+                    cout << endl;
+                }
+            }
 
         }
         else if (option == "5") {
@@ -211,14 +373,20 @@ int main() {
 
           std::getline(std::cin, input);
           std::cout << "Searching for " << input<<std::endl;
+
+
 ///////////////////////////////////////////******Red Black Tree search*******//////////////////////////////////////////////
             auto start = std::chrono::high_resolution_clock::now();// measuring time performance of searching in a search operation
           std::vector<Song> matches = redblacktree.search(input);
             auto end = chrono::high_resolution_clock::now();
 
+            ////Heap///
+            ////// ADD PERFORMANCE
+            vector <Song> matchesHeap = songHeap.search(input);
+
             timeRBsearch += chrono::duration<double>(end - start).count() * 1000; /// MEASURING TIME
             SEARCH++;
-          if (matches.empty()) {
+          if (matches.empty() && matchesHeap.empty()) {
             std::cout << "No song found" << std::endl;
             menu();
             continue;
@@ -229,6 +397,16 @@ int main() {
             std::cout << matches[0].getSongName() <<" by: "<< matches[0].getArtist()<< std::endl;
             std::cout << "Energy Level: "<< matches[0].getEnergy() << std::endl;
 
+          
+            cout << "\n -------------- Heap Results ---------------" <<endl;
+            for (int i = 0; i < matchesHeap.size(); ++i) {
+                cout<< endl;
+                cout<< i+1 <<". "<< matches[i].getSongName() << " by: " << matches[i].getArtist()<< endl;
+                cout<< "Energy Level: " << matches[i].getEnergy() << endl;
+            }
+
+
+
           }
           else if (matches.size() > 1) {
               std::cout << "Matches found: "<<std::endl;
@@ -236,6 +414,13 @@ int main() {
                   std::cout<<std::endl;
                   std::cout<< i+1 <<". "<< matches[i].getSongName() << " by: " << matches[i].getArtist()<<std::endl;
                   std::cout<< "Energy Level: " << matches[i].getEnergy() << std::endl;
+
+                  cout << "-------------- Heap Results ---------------" <<endl;
+                  for (int i = 0; i < matchesHeap.size(); ++i) {
+                      cout<< endl;
+                      cout<< i+1 <<". "<< matches[i].getSongName() << " by: " << matches[i].getArtist()<< endl;
+                      cout<< "Energy Level: " << matches[i].getEnergy() << endl;
+                  }
               }
               std::cout << std::endl;
               std::cout<<"Select the song you were looking for."<<std::endl;
@@ -262,18 +447,17 @@ int main() {
                 }
 /////////////////////////////////////////******End of Red Black Tree search*******////////////////////////////////////////////////////
           }
-        }
-        else if (option == "6") {
 
         }
-        else if (option == "7") {
+       
+        else if (option == "6") {
             cout << "--- Compare Heap vs Red-Black Tree Performance ---" << endl;
             
             Performance::testInsertion(songs); 
             Performance::testTopNRetrieval(songs, 10); 
             Performance::testRangeQuery(songs, 0.4f, 0.6f);
         }
-        else if (option == "8") {
+        else if (option == "7") {
             break;
         }
         else {
@@ -286,5 +470,4 @@ int main() {
     
 
 }
-
 

@@ -11,7 +11,7 @@
 using namespace std;
 
 
-// Test Case 1: Song Loader
+// song loader
 TEST_CASE("1. Test Song Loader", "[loader]") {
 
     SECTION("Loading the real dataset") {
@@ -35,7 +35,7 @@ TEST_CASE("1. Test Song Loader", "[loader]") {
 }
 
 
-// Test Case 2: Heap Data Structure
+// heap data structure
 TEST_CASE("2. Test Heap Operations", "[heap]") {
 
     Song low("Low Song", "Artist", 0.2, "Genre");
@@ -46,18 +46,18 @@ TEST_CASE("2. Test Heap Operations", "[heap]") {
         Heap songHeap;
         REQUIRE(songHeap.isEmpty());
         
-        // Insert mid
+        // insert mid
         songHeap.insert(mid);
         REQUIRE(!songHeap.isEmpty());
         REQUIRE(songHeap.size() == 1);
         REQUIRE(songHeap.getMax().getEnergy() == 0.6); // new max
 
-        // Insert high
+        // insert high
         songHeap.insert(high);
         REQUIRE(songHeap.size() == 2);
         REQUIRE(songHeap.getMax().getEnergy() == 0.9); // new max
 
-        // Insert low
+        // insert low
         songHeap.insert(low);
         REQUIRE(songHeap.size() == 3);
         REQUIRE(songHeap.getMax().getEnergy() == 0.9); // max is still high
@@ -71,23 +71,23 @@ TEST_CASE("2. Test Heap Operations", "[heap]") {
         
         REQUIRE(songHeap.size() == 3);
         
-        // 1. Extract "High" (0.9)
+        // extract "high" (0.9)
         Song extracted1 = songHeap.extractMax();
         REQUIRE(extracted1.getEnergy() == 0.9);
         REQUIRE(songHeap.size() == 2);
         
-        // 2. New max should be "Mid" (0.6)
+        // new max should be "mid" (0.6)
         REQUIRE(songHeap.getMax().getEnergy() == 0.6);
 
-        // 3. Extract "Mid" (0.6)
+        // extract "mid" (0.6)
         Song extracted2 = songHeap.extractMax();
         REQUIRE(extracted2.getEnergy() == 0.6);
         REQUIRE(songHeap.size() == 1);
 
-        // 4. New max should be "Low" (0.2)
+        // new max should be "low" (0.2)
         REQUIRE(songHeap.getMax().getEnergy() == 0.2);
         
-        // 5. Extract "Low" (0.2)
+        // extract "low" (0.2)
         Song extracted3 = songHeap.extractMax();
         REQUIRE(extracted3.getEnergy() == 0.2);
         REQUIRE(songHeap.size() == 0);
@@ -97,15 +97,15 @@ TEST_CASE("2. Test Heap Operations", "[heap]") {
     SECTION("Heap Edge Cases") {
         Heap emptyHeap;
         
-        // Test operations on an empty heap
+        // test operations on empty heap
         REQUIRE(emptyHeap.isEmpty());
         REQUIRE(emptyHeap.size() == 0);
         
-        // Check what getMax() returns on empty
+        // check what getMax() returns on empty
         Song defaultSong = emptyHeap.getMax();
         REQUIRE(defaultSong.getEnergy() == 0.0); 
         
-        // Check what extractMax() returns on empty
+        // check what extractMax() returns on empty
         Song extractedDefault = emptyHeap.extractMax();
         REQUIRE(extractedDefault.getEnergy() == 0.0); 
         
@@ -118,12 +118,12 @@ TEST_CASE("3. Test Red-Black Tree Operations", "[rb]") {
     Song s_a_05("Song A", "Artist 1", 0.5, "Genre");
     Song s_b_03("Song B", "Artist 2", 0.3, "Genre");
     Song s_c_07("Song C", "Artist 3", 0.7, "Genre");
-    Song s_d_05("Song D", "Artist 4", 0.5, "Genre"); // Duplicate energy
-    Song s_a_09("Song A", "Artist 5", 0.9, "Genre"); // Duplicate name
+    Song s_d_05("Song D", "Artist 4", 0.5, "Genre"); // duplicate energy
+    Song s_a_09("Song A", "Artist 5", 0.9, "Genre"); // duplicate name
 
     SECTION("Empty Tree Search") {
         RB tree;
-        std::vector<Song> results = tree.search("Non-existent");
+        std::vector<Song> results = tree.search("non-existent");
         REQUIRE(results.empty());
     }
 
