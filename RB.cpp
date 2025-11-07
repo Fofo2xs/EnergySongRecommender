@@ -247,20 +247,135 @@ void RB::ReverseInOrderHelper(Node* node, float l, float h, int& count, int n, s
     }
    ReverseInOrderHelper(node->left, l, h, count, n, res);
 }
+Song RB::findMinEnergy() {
+    Node* node = findMinEnergyHelper(root);
+    return node->song;
+}
+RB::Node* RB::findMinEnergyHelper(Node* node) {
+
+    if (node == nil) {
+        throw std::runtime_error("Tree is empty");
+    }
+    if (node->left== nil) {
+        return node;
+    }
+    return findMinEnergyHelper(node->left);
+}
+RB::Node* RB::findMaxEnergyHelper(Node *node) {
+    if (node == nil) {
+        throw std::runtime_error("Tree is empty");
+    }
+    if (node->right== nil) {
+        return node;
+    }
+    return findMaxEnergyHelper(node->right);
+}
+
+void RB::calculateAverageHelper(Node *node, int& n, double& sum) {
+
+    if (node == nil) {
+        return;
+    }
+    calculateAverageHelper(node->left,n, sum);
+    sum+= node->song.getEnergy();
+    n++;
+    calculateAverageHelper(node->right,n, sum);
+
+}
+
+void RB::getDataHelper(Node *node, std::map<std::string, std::pair<double, int>> &res, bool genre) {
+    if (node == nil) {
+        return;
+    }
+    getDataHelper(node->left, res, genre);
+    std::string key = (genre)?node->song.getGenre():node->song.getArtist();
+    res[key].first += node->song.getEnergy();
+    res[key].second++;
+
+    getDataHelper(node->right, res,genre);
+}
+
+std::pair<std::string, double> RB::getMostEnergeticGenre() {
+    if (root == nil) {
+        return std::make_pair("", 0);
+    }
+    std::map<std::string, std::pair<double, int>> res;
+    getDataHelper(root, res, true);
+    if (res.empty()) {
+        return std::make_pair("", 0);
+    }
+    std::string topGenre = res.begin()->first;
+    double topAvg = res.begin()->second.first/res.begin()->second.second;
+    for (const auto& p : res) {
+        double newAvg = p.second.first/p.second.second;
+        if (newAvg > topAvg) {
+            topAvg = newAvg;
+            topGenre = p.first;
+        }
+    }
+return std::make_pair(topGenre, topAvg);
+
+}
+
+std::pair<std::string, double> RB::getMostEnergeticArtist() {
+    if (root == nil) {
+        return std::make_pair("", 0);
+    }
+
+    std::map<std::string, std::pair<double, int>> res;
+    getDataHelper(root, res, false);
+    if (res.empty()) {
+        return std::make_pair("", 0);
+    }
+    std::string topArt = res.begin()->first;
+    double topAvg = res.begin()->second.first/res.begin()->second.second;
+    for (const auto& p : res) {
+        double newAvg = p.second.first/p.second.second;
+        if (newAvg > topAvg) {
+            topAvg = newAvg;
+            topArt = p.first;
+        }
+    }
+    return {topArt, topAvg};
+}
+
+std::map<std::string, int> RB::getGenreCount() {
+    std::map<std::string, int> res;
+    std::map<std::string, std::pair<double,int>> dat;
+    getDataHelper(root, dat, true);
+    for (const auto& p : dat) {
+        res[p.first]=p.second.second;
+    }
+    return res;
+}
+
+std::map<std::string, int> RB::getArtistCount() {
+    std::map<std::string, int> res;
+    std::map<std::string, std::pair<double,int>> dat;
+    getDataHelper(root, dat, false);
+    for (const auto& p : dat) {
+        res[p.first]=p.second.second;
+    }
+    return res;
+}
+
+double RB::calculateAverage() {
+    if (root == nil) {
+        return 0.0;
+    }
+    int num = 0;
+    double sum = 0.0;
+    calculateAverageHelper(root, num, sum);
+    return sum/num;
+
+}
+
+Song RB::findMaxEnergy() {
+    Node* node = findMaxEnergyHelper(root);
+    return node->song;
+}
 
 
-
-// RB::~RB() {
-//     destructorHelper(root);
-//     if (nil != nullptr) {
-//         delete nil;
-//         nil = nullptr;
-//     }
-//
-//     root = nullptr;
-//
-//     std::cout << "deleted\n";
-// }
 
 void RB::destructorHelper(Node *node) {
     if (node == nil) {
