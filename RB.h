@@ -8,6 +8,7 @@
 #include <sstream>
 #include <regex>
 #include "Song.h"
+#include <map>
 
 enum Color{
     RED,

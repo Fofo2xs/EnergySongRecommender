@@ -11,7 +11,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(Catch2)
 
-add_executable(EnergySongRecommender main.cpp  Song.cpp Heap.cpp Song_loader.cpp)
+add_executable(EnergySongRecommender main.cpp  Song.cpp Heap.cpp Song_loader.cpp RB.cpp Performance.cpp)
 
 add_executable(Tests test/test.cpp Song.cpp Heap.cpp Song_loader.cpp)
 
