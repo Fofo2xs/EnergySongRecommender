@@ -126,14 +126,17 @@ void Heap::printAllSongs() const {
 }
 
 
+
 vector<Song> Heap::recommendTopNHeap(int n) const {
    vector<Song> topSongs;
    if (heap.empty() || n <= 0) {
      return topSongs;
    }
 
+
    //Made a copy so the heap isn't altered
    Heap tempHeap = *this;
+
 
    for (int i = 0; i < n && !tempHeap.isEmpty(); ++i) {
        topSongs.push_back(tempHeap.extractMax());
@@ -141,6 +144,17 @@ vector<Song> Heap::recommendTopNHeap(int n) const {
 
 
    return topSongs;
+}
+
+vector<Song> Heap::search(const string &songName) const {
+    vector<Song> matchingSongs;
+
+    for (const auto& song : heap) {
+        if (song.getSongName() == songName) {
+            matchingSongs.push_back(song);
+        }
+    }
+    return matchingSongs;
 }
 
 
