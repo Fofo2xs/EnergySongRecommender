@@ -46,9 +46,11 @@ class RB {
     Node* findMaxEnergyHelper(Node* node);//DONE
     void calculateAverageHelper(Node* node, int& n, double & sum);// to compare average energy //DONE
     void getDataHelper(Node* node, std::map<std::string, std::pair<double,int>>& res, bool genre);
-    /////////////-----------------Main: option 2-----------/////////////////
-
-
+    /////////////-----------------Main: option 2---------------////////////////
+    ///
+    ////////////------------------Main: option 1--------------////////////////
+    void getRandomSongsHelper(Node* node, std::vector<Song*>& res) const;
+    ////////////------------------Main: option 1--------------////////////////
 
 public:
 
@@ -67,6 +69,10 @@ public:
     std::map<std::string, int> getArtistCount();
     //std::map<std::string, std::pair<double, int>> getData(bool genre);
     /////////////-----------------Main: option 2-----------/////////////////
+    ///
+    ///////////////------------------Main: option 1--------------////////////////
+    std::vector<Song*> getRandomSongs(int n);
+    ///////////////------------------Main: option 1--------------////////////////
     RB(const RB& obj);
     //RB& operator=(const RB& obj);
 

@@ -8,6 +8,7 @@
 #include <chrono>
 #include <stdexcept>
 #include <iomanip>
+#include <cmath>
 #include "Performance.h"
 
 using namespace std;
@@ -57,7 +58,62 @@ int main() {
         cin >> option;
 
         if (option == "1") {
-            songHeap.printAllSongs();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+          char choice = 'y';
+          std::string input;
+          while ( choice == 'y' || choice == 'Y') {
+              std::cout << "Displaying 2O random songs"<< std::endl;
+              ///////////////---------Red Black Tree-------------////////////////
+              std::vector<Song*> randSongs = redblacktree.getRandomSongs(20);
+              if(randSongs.empty()){
+                  std::cout << "No songs found" << std::endl;
+                  break;
+              }
+              for (int i = 0; i < randSongs.size(); i++) {
+                  std::string mood;
+                  double energy = std::round(randSongs[i]->getEnergy()*100.0)/100.0;
+                  if (energy>=0 && energy <= 0.29) {
+                      mood = "Chillout";
+                  }
+                  else if(energy > 0.29 && energy <= 0.49)
+                  {
+                      mood = "Pleasant";
+                  }
+                  else if (energy > 0.49 && energy <= 0.69)
+                      mood = "Moderate";
+                  else if (energy > 0.69 && energy <= 0.89)
+                  { mood = "Energetic";}
+                  else
+                  {mood = "Pure Hype";}
+                  std::cout<< i +1<<". ";
+                  std::cout << randSongs[i]->getSongName() << " by: "<<randSongs[i]->getArtist();
+                  std::cout<<" ["<<randSongs[i]->getGenre()<<"] "<< "(Energy: "<<std::fixed<<setprecision(2)<<randSongs[i]->getEnergy()<<") "<< mood<<std::endl;
+              }
+              while(true){
+                  std::cout << std::endl;
+                  std::cout << "Would you like to view 20 other Random songs? (y/n): "<<std::endl;
+                  std::getline(std::cin,input);
+                  auto lowerSTR = [](std::string& str){
+                      std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+                  };
+                  if (input.empty()) {
+                     // lowerSTR(input);
+                     continue;
+                  }
+                  lowerSTR(input);
+                  if (input == "y"|| input == "yes") {
+                      choice = 'y';
+                      break;
+                  }
+                  else if (input == "n"|| input == "no") {
+                      choice = 'n';
+                      break;
+                  }
+                  else {
+                      std::cout<< "Invalid argument. Please input your answer as y/n."<<std::endl;
+                  }
+              }
+          }
         }
         else if (option == "2") {
             //songHeap.printAllSongs();

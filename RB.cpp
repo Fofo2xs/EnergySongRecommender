@@ -3,6 +3,9 @@
 //
 #include "RB.h"
 #include "Song.h"
+#include <ctime>
+#include <cstdlib>
+#include <set>
 
 RB::RB() {
     nil = new Node();
@@ -296,6 +299,7 @@ void RB::getDataHelper(Node *node, std::map<std::string, std::pair<double, int>>
     getDataHelper(node->right, res,genre);
 }
 
+
 std::pair<std::string, double> RB::getMostEnergeticGenre() {
     if (root == nil) {
         return std::make_pair("", 0);
@@ -376,8 +380,37 @@ Song RB::findMaxEnergy() {
     return node->song;
 }
 /////////////-----------------Main: option 2-----------/////////////////
+///
+///
+////////////------------------Main: option 1--------------////////////////
+void RB::getRandomSongsHelper(Node *node, std::vector<Song *> &res) const {
+    if (node == nil) {
+        return;
+    }
+    getRandomSongsHelper(node->left, res);
+    res.push_back(&node->song);
+    getRandomSongsHelper(node->right, res);
+}
 
-
+std::vector<Song *> RB::getRandomSongs(int n) {
+    std::vector<Song *> songs;
+    getRandomSongsHelper(root, songs);
+    std::vector<Song *> res;
+    if (songs.empty()) {
+        return res;
+    }
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    std::set<int> indexes;
+    while (indexes.size() < n) {
+        int i = std::rand() % songs.size();
+        if (indexes.find(i) == indexes.end()) {
+            indexes.insert(i);
+            res.push_back(songs[i]);
+        }
+    }
+    return res;
+}
+////////////------------------Main: option 1--------------////////////////
 void RB::destructorHelper(Node *node) {
     if (node == nil) {
         return;
