@@ -212,6 +212,7 @@ int main() {
                 songs.push_back(newSong);
 
                 //Add to Heap structure
+                // ADD PERFORMANCE TIME
                 songHeap.insert(newSong);
 
                 //Add to Red Black Tree Data Structure
@@ -276,6 +277,39 @@ int main() {
               }
               ///////////////////////////////////////////******Red Black Tree search*******//////////////////////////////////////////////
             }
+
+            //////////////////////////////////////////    /Heap /////////////////////
+            vector<Song> sonsInRange = songHeap.findSongInRange(l,h);
+
+            cout << "-------------- Heap Results ----------------" <<endl;
+            // ADD IN PERFORMANCE TIME
+            Heap rangeHeap;
+            for (auto& song: sonsInRange) {
+                rangeHeap.insert(song);
+            }
+
+            vector <Song> topSongs = rangeHeap.recommendTopNHeap(n);
+            if (topSongs.empty()) {
+                cout << "No songs found with the specified range."<<endl;
+            }
+            else {
+                if (topSongs.size()<n) {
+                    cout << "Found only "<< topSongs.size()<<" songs."<<endl;
+                }
+                else {
+                    cout << "Top "<<n<<" songs."<<endl;
+                    cout << endl;
+                }
+
+                for (auto i = 0; i<topSongs.size(); i++) {
+                    cout << i+1<<". ";
+                    cout << topSongs[i].getSongName()<<" by: "<< topSongs[i].getArtist()<<endl;
+                    cout << "Energy level: "<<topSongs[i].getEnergy()<<endl;
+                    cout << endl;
+                }
+            }
+
+
 
         }
         else if (option == "6") {
