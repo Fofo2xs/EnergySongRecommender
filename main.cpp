@@ -49,7 +49,7 @@ int main() {
         redblacktree.insert(song);
     }
     //songHeap.printAllSongs();
-
+    menu();
     while (true) {
         string option;
         cin >> option;
@@ -153,7 +153,6 @@ int main() {
         else if (option == "4") {
           int n;
           std::cout<<"Enter Number of Songs: "<<std::endl;
-          std::cin>>n;
             if (!(std::cin >> n) || n <= 0) {
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
@@ -164,8 +163,6 @@ int main() {
           float l;
           float h;
           std::cout<<"Enter Desired Energy Range Level (two numbers between 0.0 and 1.0, both inclusive): "<<std::endl;
-          std::cin>>l;
-          std::cin>>h;
           if (!(std::cin >> l) || !(std::cin >> h) || l < 0 || h < 0 || l > h) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
