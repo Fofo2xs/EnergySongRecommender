@@ -157,7 +157,6 @@ vector<Song> Heap::recommendTopNHeap(int n) const {
 
 //Make song name lowercase
 string Heap::searchHelper(const string& str) const {
-
     string lowerStr = str;
     transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
     return lowerStr;
