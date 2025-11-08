@@ -35,7 +35,6 @@ public:
 
     //For Application purposes
     vector<Song> recommendTopNHeap(int n) const;
-    double findEnergyHeap(const string &songName, const string &artist) const;
     vector<Song> findSongInRange(double low, double high) const;
     Song getRandomSong(int i) const;
     double calculateAverageHeap() const;

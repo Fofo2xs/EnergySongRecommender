@@ -167,7 +167,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode({1000, 750}), "EnergySongRecommender");
     window.setFramerateLimit(60);
 
-    if (!font.openFromFile("Inter-Regular.ttf")) {
+    if (!font.openFromFile("../Inter-Regular.ttf")) {
         cerr << "Error: Could not load font" << endl;
         return 1;
     }

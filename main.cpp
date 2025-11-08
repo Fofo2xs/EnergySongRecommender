@@ -57,6 +57,7 @@ int main() {
         string option;
         cin >> option;
 
+        //View 20 Songs
         if (option == "1") {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
           char choice = 'y';
@@ -70,6 +71,7 @@ int main() {
                   std::cout << "No songs found" << std::endl;
                   break;
               }
+              // Song Moods to Display
               for (int i = 0; i < randSongs.size(); i++) {
                   std::string mood;
                   double energy = std::round(randSongs[i]->getEnergy()*100.0)/100.0;
@@ -148,7 +150,6 @@ int main() {
                       std::transform(str.begin(), str.end(), str.begin(), ::tolower);
                   };
                   if (input.empty()) {
-                     // lowerSTR(input);
                      continue;
                   }
                   lowerSTR(input);
@@ -169,7 +170,7 @@ int main() {
           }
         }
         else if (option == "2") {
-            //songHeap.printAllSongs();
+
             cout << "\n---------------- Red Black Tree Results ----------" << endl;
             std::cout<< "Average Energy level in the playlist: ";
             double averageEnergy = redblacktree.calculateAverage();//1
@@ -220,15 +221,13 @@ int main() {
             std::vector<std::pair<std::string, int> > genresVector(genres.begin(), genres.end());
             auto sort1 = [](const std::pair<std::string, int>& a, const std::pair<std::string, int>& b){
               return a.second>b.second;
-
-              };
+            };
             std::sort(genresVector.begin(), genresVector.end(), sort1);
             size_t minNum= std::min(genresVector.size(),static_cast<size_t>(5));
             for (size_t i = 0;i<minNum;i++){
               std::cout<<i+1<<". "<<genresVector[i].first<<std::endl;
               std::cout<<"Songs: "<<genresVector[i].second;
               std::cout<<" ("<<std::fixed<<setprecision(1)<<genresVector[i].second*100/songs.size()<<"%)"<<std::endl;
-              //std::cout<<std::endl;
             }
             std::cout << "Out of " << genres.size() << " genres." << std::endl;
             std::cout<<std::endl;

@@ -159,18 +159,6 @@ vector<Song> Heap::search(const string &songName) const {
     return matchingSongs;
 }
 
-
-double Heap::findEnergyHeap(const string &songName, const string &artist) const {
-    for (const auto& song : heap) {
-        if (song.getSongName() == songName && song.getArtist() == artist) {
-            return song.getEnergy();
-        }
-    }
-    //indicates song not found
-     return -1.0;
-}
-
-
 vector<Song> Heap::findSongInRange(double low, double high) const {
      vector<Song> result;
      if (low < 0.0 || high > 1.0) {
