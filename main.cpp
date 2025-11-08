@@ -194,7 +194,7 @@ int main() {
 
             // Highest Energy Level
             cout << "\nHighest Energy Level Song" << endl;
-            cout << "\n---------------- Red Black Tree Results ----------" << endl;
+            cout << "---------------- Red Black Tree Results ----------" << endl;
             std::cout << "Song with the HIGHEST energy level: ";
 
             //Performance
@@ -208,7 +208,7 @@ int main() {
             //Display Results
             std::cout << max.getSongName() <<" by: "<<max.getArtist()<< endl;
             std::cout <<"Energy level: "<< max.getEnergy() << std::endl;
-            std::cout << "Time Taken: " << std::fixed << std::setprecision(2) << time_rb_max << " ms" << std::endl;
+            std::cout << "Time Taken: " << std::fixed << std::setprecision(4) << time_rb_max << " ms" << std::endl;
             std::cout<<std::endl;
 
             ////////////////////////////////////// Heap ///////////////////////////////////////////
@@ -226,12 +226,13 @@ int main() {
             // Display Results
             cout << highestEnergy.getSongName() << " by: "<< highestEnergy.getArtist() << endl;
             cout << "Energy level: "<< highestEnergy.getEnergy() << endl;
-            cout << " Time Taken: " << std::fixed << std::setprecision(2) << time_heap_max << " ms" << endl;
+            cout << "Time Taken: " << std::fixed << std::setprecision(4) << time_heap_max << " ms" << endl;
             cout << endl;
 
 
             //////////////////////////////// RED BLACK TREE //////////////////////////////////
-            cout << "\n---------------- Red Black Tree Results ----------" << endl;
+            cout << "Lowest Energy Song" << endl;
+            cout << "---------------- Red Black Tree Results ----------" << endl;
 
             //Performance
             std::cout << "Song with the LOWEST energy level: ";
@@ -246,7 +247,7 @@ int main() {
             //Display Results
             std::cout << min.getSongName() <<" by: "<<min.getArtist()<< endl;
             std::cout <<"Energy level: "<< min.getEnergy() << std::endl;
-            std::cout << "Time Taken: " << std::fixed << std::setprecision(2) << time_rb_min << " ms" << std::endl;
+            std::cout << "Time Taken: " << std::fixed << std::setprecision(4) << time_rb_min << " ms" << std::endl;
             std::cout<<std::endl;
 
             ////////////////////////////////////// Heap ///////////////////////////////////////////////
@@ -263,7 +264,7 @@ int main() {
             //Display Results
             cout << lowestEnergy.getSongName() << " by: "<< lowestEnergy.getArtist() << endl;
             cout << "Energy level: "<< lowestEnergy.getEnergy() << endl;
-            cout << "Time Taken: " << std::fixed << std::setprecision(2) << time_heap_min << " ms" << endl;
+            cout << "Time Taken: " << std::fixed << std::setprecision(4) << time_heap_min << " ms" << endl;
             cout << endl;
 
 
@@ -407,7 +408,7 @@ int main() {
                 auto end_heap = chrono::high_resolution_clock::now();
                 timeHeapInsertion += chrono::duration<double>(end_heap - start_heap).count() * 1000;
                 HEAP_INSERT_COUNT++;
-                cout << " Heap Time: " << fixed << setprecision(2) << timeHeapInsertion << " ms" << endl;
+                cout << "\nHeap Time: " << fixed << setprecision(4) << timeHeapInsertion << " ms" << endl;
 
                 //Add to Red Black Tree Data Structure
                 // Red Black Tree Performance
@@ -416,7 +417,7 @@ int main() {
                 auto end = std::chrono::high_resolution_clock::now();
                 timeRBinsertion += chrono::duration<double>(end - start).count() * 1000; /// MEASURING TIME
                 INSERT++;
-                cout << "Red Black Tree Time: " << fixed << setprecision(2) << timeRBinsertion << " ms" << endl;
+                cout << "Red Black Tree Time: " << fixed << setprecision(4) << timeRBinsertion << " ms" << endl;
                 
                 cout << "Song Added" << endl;
                 break;
@@ -456,7 +457,7 @@ int main() {
 
             //Display Results
             cout << "\n---------------- Red Black Tree Results ----------" << endl;
-            cout << "Time Taken: " << std::fixed << std::setprecision(2) << timeRBsearch << " ms" << std::endl;
+            cout << "Time Taken: " << std::fixed << std::setprecision(4) << timeRBsearch << " ms" << std::endl;
             if (Topsongs.empty())
               {
               std::cout<<"No songs found with the specified range."<<endl;
@@ -498,7 +499,7 @@ int main() {
             HEAP_RETRIEVAL_COUNT++;
 
             //Display Results
-            cout << "Time Taken: " << fixed << std::setprecision(2) << time_heap_range << " ms" << endl;
+            cout << "Time Taken: " << fixed << std::setprecision(4) << time_heap_range << " ms" << endl;
             if (topSongs.empty()) {
                 cout << "No songs found with the specified range."<<endl;
             }
@@ -540,7 +541,7 @@ int main() {
             timeRBsearch += chrono::duration<double>(end - start).count() * 1000; /// MEASURING TIME
             SEARCH++;
 
-            cout << "Time taken: " << fixed << std::setprecision(2) << timeRBsearch << " ms" << endl;
+            cout << "Time taken: " << fixed << std::setprecision(4) << timeRBsearch << " ms" << endl;
 
             ///////////////  Heap   ////////////////
             auto start_heap = chrono::high_resolution_clock::now();
@@ -562,7 +563,7 @@ int main() {
             std::cout << "Energy Level: "<< matches[0].getEnergy() << std::endl;
 
             cout << "\n------------------- Heap Results ---------------" << endl;
-            cout << "Time taken: " << fixed << std::setprecision(2) << time_heap_search << " ms" << endl;
+            cout << "Time taken: " << fixed << std::setprecision(4) << time_heap_search << " ms" << endl;
             for (int i = 0; i < matchesHeap.size(); ++i) {
                 cout<< endl;
                 cout<< i+1 <<". "<< matches[i].getSongName() << " by: " << matches[i].getArtist()<< endl;
@@ -580,7 +581,7 @@ int main() {
                   std::cout<< "Energy Level: " << matches[i].getEnergy() << std::endl;
 
                   cout << "\n------------------- Heap Results ---------------" << endl;
-                  cout << "Time taken: " << fixed << std::setprecision(2) << time_heap_search << " ms" << endl;
+                  cout << "Time taken: " << fixed << std::setprecision(4) << time_heap_search << " ms" << endl;
                   for (int i = 0; i < matchesHeap.size(); ++i) {
                       cout<< endl;
                       cout<< i+1 <<". "<< matches[i].getSongName() << " by: " << matches[i].getArtist()<< endl;
