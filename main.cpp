@@ -282,7 +282,7 @@ int main() {
             for (size_t i = 0;i<minNum;i++){
               std::cout<<i+1<<". "<<genresVector[i].first<<std::endl;
               std::cout<<"Songs: "<<genresVector[i].second;
-              std::cout<<" ("<<std::fixed<<setprecision(1)<<genresVector[i].second*100/songs.size()<<"%)"<<std::endl;
+              std::cout<<" ("<<std::fixed<<setprecision(1)<<genresVector[i].second*100.0/songs.size()<<"%)"<<std::endl;
             }
             std::cout << "Out of " << genres.size() << " genres." << std::endl;
             std::cout<<std::endl;
@@ -296,7 +296,7 @@ int main() {
             for (size_t i = 0;i<minNum2;i++){
                 std::cout<<i+1<<". "<<artistsVector[i].first<<std::endl;
                 std::cout<<"Songs: "<<artistsVector[i].second;
-                std::cout<<" ("<<std::fixed<<setprecision(1)<<artistsVector[i].second*100/songs.size()<<"%)"<<std::endl;
+                std::cout<<" ("<<std::fixed<<setprecision(1)<<artistsVector[i].second*100.0/songs.size()<<"%)"<<std::endl;
                 std::cout<<std::endl;
             }
             std::cout << "Out of " << artists.size() << " artists." << std::endl;
