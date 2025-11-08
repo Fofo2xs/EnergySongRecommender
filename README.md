@@ -1,9 +1,10 @@
-<H1> COP3530 - Project 2 </h1>
-This is the template for Project 2 repositories. It includes all the assignment instructions and documentation to help you use GitHub.
+<H1> Amplify!!! </h1>
+Song Energy Recommender Based on Energy Levels
+
 
 <h2> Table of Contents </h2>
 
-- [Documentation and resources on how to use GitHub for Project 2](#documentation-and-resources-on-how-to-use-github-for-project-3)
+- 
 	- [Getting Started with the Project](#getting-started-with-the-project)
 		- [Step 1: Create Your Project Repository](#step-1-create-your-project-repository)
 		- [Step 2: Repository Name and Visibility](#step-2-repository-name-and-visibility)
