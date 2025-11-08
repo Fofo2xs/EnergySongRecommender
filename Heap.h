@@ -30,11 +30,16 @@ public:
     Song getMax() const;
     bool isEmpty() const;
     int size() const;
-    void printAllSongs() const;
-    vector<Song> recommendTopNHeap(int n) const;
     vector<Song> search(const string &songName) const;
+    void printAllSongs() const;
+
+    //For Application purposes
+    vector<Song> recommendTopNHeap(int n) const;
     double findEnergyHeap(const string &songName, const string &artist) const;
     vector<Song> findSongInRange(double low, double high) const;
+    Song getRandomSong(int i) const;
+    double calculateAverageHeap() const;
+    Song findMinEnergyHeap() const;;
 
 
 

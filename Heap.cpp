@@ -1,5 +1,7 @@
 #include "Heap.h"
 #include <iostream>
+#include <cstdlib>
+
 using namespace std;
 
 
@@ -181,4 +183,43 @@ vector<Song> Heap::findSongInRange(double low, double high) const {
        }
      }
      return result;
+}
+
+
+Song Heap::getRandomSong(int i) const {
+    if (i >= 0 && i < heap.size()) {
+        return heap[i];
+    }
+    return Song();
+}
+
+double Heap::calculateAverageHeap() const {
+    if (heap.empty()) {
+        return 0.0;
+    }
+    double totalEnergy = 0.0;
+    for (const auto& song : heap) {
+        totalEnergy += song.getEnergy();
+    }
+    return totalEnergy / heap.size();
+}
+
+Song Heap::findMinEnergyHeap() const{
+    if (heap.empty()) {
+        return Song();
+    }
+    Song minEnergy = heap[0];
+    for (  int i = 1; i < heap.size(); ++i) {
+        if (heap[i].getEnergy() < minEnergy.getEnergy()) {
+            minEnergy = heap[i];
+        }
+
+        else if (heap[i].getEnergy() == minEnergy.getEnergy()) {
+            if (heap[i].getSongName() < minEnergy.getSongName()) {
+                minEnergy = heap[i];
+            }
+        }
+    }
+    return minEnergy;
+    
 }
