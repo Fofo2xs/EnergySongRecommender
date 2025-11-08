@@ -562,15 +562,6 @@ int main() {
             std::cout << matches[0].getSongName() <<" by: "<< matches[0].getArtist()<< std::endl;
             std::cout << "Energy Level: "<< matches[0].getEnergy() << std::endl;
 
-            cout << "\n------------------- Heap Results ---------------" << endl;
-            cout << "Time taken: " << fixed << std::setprecision(4) << time_heap_search << " ms" << endl;
-            for (int i = 0; i < matchesHeap.size(); ++i) {
-                cout<< endl;
-                cout<< i+1 <<". "<< matches[i].getSongName() << " by: " << matches[i].getArtist()<< endl;
-                cout<< "Energy Level: " << matches[i].getEnergy() << endl;
-            }
-
-
 
           }
           else if (matches.size() > 1) {
@@ -579,14 +570,14 @@ int main() {
                   std::cout<<std::endl;
                   std::cout<< i+1 <<". "<< matches[i].getSongName() << " by: " << matches[i].getArtist()<<std::endl;
                   std::cout<< "Energy Level: " << matches[i].getEnergy() << std::endl;
+              }
 
-                  cout << "\n------------------- Heap Results ---------------" << endl;
-                  cout << "Time taken: " << fixed << std::setprecision(4) << time_heap_search << " ms" << endl;
-                  for (int i = 0; i < matchesHeap.size(); ++i) {
-                      cout<< endl;
-                      cout<< i+1 <<". "<< matches[i].getSongName() << " by: " << matches[i].getArtist()<< endl;
-                      cout<< "Energy Level: " << matches[i].getEnergy() << endl;
-                  }
+              cout << "\n------------------- Heap Results ---------------" << endl;
+              cout << "Time taken: " << fixed << std::setprecision(4) << time_heap_search << " ms" << endl;
+              for (int i = 0; i < matchesHeap.size(); ++i) {
+                  cout<< endl;
+                  cout<< i+1 <<". "<< matches[i].getSongName() << " by: " << matches[i].getArtist()<< endl;
+                  cout<< "Energy Level: " << matches[i].getEnergy() << endl;
               }
 
               // User Interaction
