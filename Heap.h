@@ -7,7 +7,7 @@ class Heap {
 private:
     vector<Song> heap;
 
-    // Parent, left, and right child indexies
+    // Parent, left, and right child indexes
     int parent(int i);
     int left(int i);
     int right(int i);
@@ -24,16 +24,17 @@ private:
 public:
     Heap();
 
-    //Properties in Heaps
+    // Core Properties in Max Heap
     void insert(const Song& song);
     Song extractMax();
     Song getMax() const;
     bool isEmpty() const;
     int size() const;
     vector<Song> search(const string &songName) const;
-    void printAllSongs() const;
 
-    //For Application purposes
+
+    //Application Features
+    void printAllSongs() const;
     vector<Song> recommendTopNHeap(int n) const;
     vector<Song> findSongInRange(double low, double high) const;
     Song getRandomSong(int i) const;

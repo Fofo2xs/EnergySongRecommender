@@ -1,25 +1,26 @@
 #include "Heap.h"
 #include <iostream>
-#include <cstdlib>
+
 
 using namespace std;
 
 
 Heap::Heap(){}
 
-
+//Parent index
 int Heap::parent(int i){
- return (i-1)/2;
+    return (i-1)/2;
 }
 
 
+//Children indexes
 int Heap::left(int i){
- return 2*i+1;
+    return 2*i+1;
 }
 
 
 int Heap::right(int i){
- return 2*i+2;
+    return 2*i+2;
 }
 
 
@@ -31,18 +32,19 @@ bool Heap::isEmpty() const{
 
 //Heap size
 int Heap::size() const{
- return heap.size();
+    return heap.size();
 }
 
 
 //Insert into heap
 void Heap::insert(const Song& song){
- heap.push_back(song);
- heapifyUp(heap.size()-1);
+    heap.push_back(song);
+    heapifyUp(heap.size()-1);
 
 
 }
 
+//Alphabetically sort Heap
 bool Heap::greaterPriority(int i, int j) const {
     if (heap[i].getEnergy() > heap[j].getEnergy()) {
         return true;
@@ -54,6 +56,7 @@ bool Heap::greaterPriority(int i, int j) const {
     return false;
 }
 
+//Heapify Up
 void Heap::heapifyUp(int index) {
     while(index > 0 ) {
         int parentIndex = parent(index);
@@ -76,55 +79,59 @@ void Heap::heapifyUp(int index) {
 }
 
 
+//Heapify Down
 void Heap::heapifyDown(int index){
- int largest = index;
- int leftChild = left(index);
- int rightChild = right(index);
+
+     int largest = index;
+     int leftChild = left(index);
+     int rightChild = right(index);
 
 
- if (leftChild < heap.size() && greaterPriority(leftChild, largest)) {
-   largest = leftChild;
- }
- if (rightChild < heap.size() && greaterPriority(rightChild, largest)) {
-   largest = rightChild;
- }
- if(largest != index){
-   swap(heap[index],heap[largest]);
-   heapifyDown(largest);
- }
+     if (leftChild < heap.size() && greaterPriority(leftChild, largest)) {
+       largest = leftChild;
+     }
+     if (rightChild < heap.size() && greaterPriority(rightChild, largest)) {
+       largest = rightChild;
+     }
+     if(largest != index){
+       swap(heap[index],heap[largest]);
+       heapifyDown(largest);
+     }
 }
 
 
-//Getting max energy
+//Extracting Max
 Song Heap::extractMax(){
- if(heap.empty()){
-   return Song();
- }
+     if(heap.empty()){
+       return Song();
+     }
 
 
- Song max = heap[0];
- heap[0] = heap[heap.size()-1];
- heap.pop_back();
- heapifyDown(0);
- return max;
+     Song max = heap[0];
+     heap[0] = heap[heap.size()-1];
+     heap.pop_back();
+     heapifyDown(0);
+     return max;
 }
 
 
+//Getting Max
 Song Heap::getMax() const{
- if(heap.empty()){
-   return Song();
- }
- return heap[0];
+     if(heap.empty()){
+       return Song();
+     }
+     return heap[0];
 }
 
 
 //Print Songs
 void Heap::printAllSongs() const {
- for(const auto& song : heap){
-   cout << song.getSongName() << " by " << song.getArtist()
-   << " | Energy: " << song.getEnergy()
-   << " | Genre: " << song.getGenre() << endl;
- }
+
+     for(const auto& song : heap){
+       cout << song.getSongName() << " by " << song.getArtist()
+       << " | Energy: " << song.getEnergy()
+       << " | Genre: " << song.getGenre() << endl;
+     }
 }
 
 
@@ -148,6 +155,7 @@ vector<Song> Heap::recommendTopNHeap(int n) const {
    return topSongs;
 }
 
+//Search for Songs
 vector<Song> Heap::search(const string &songName) const {
     vector<Song> matchingSongs;
 
@@ -159,6 +167,7 @@ vector<Song> Heap::search(const string &songName) const {
     return matchingSongs;
 }
 
+//Find songs in range
 vector<Song> Heap::findSongInRange(double low, double high) const {
      vector<Song> result;
      if (low < 0.0 || high > 1.0) {
@@ -197,11 +206,14 @@ Song Heap::findMinEnergyHeap() const{
         return Song();
     }
     Song minEnergy = heap[0];
+
+
     for (  int i = 1; i < heap.size(); ++i) {
         if (heap[i].getEnergy() < minEnergy.getEnergy()) {
             minEnergy = heap[i];
         }
 
+        //Sort Alphabetically
         else if (heap[i].getEnergy() == minEnergy.getEnergy()) {
             if (heap[i].getSongName() < minEnergy.getSongName()) {
                 minEnergy = heap[i];
