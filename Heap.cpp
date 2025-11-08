@@ -182,6 +182,9 @@ vector<Song> Heap::findSongInRange(double low, double high) const {
      return result;
 }
 
+   for (int i = 0; i < n && !tempHeap.isEmpty(); ++i) {
+       topSongs.push_back(tempHeap.extractMax());
+   }
 
 Song Heap::getRandomSong(int i) const {
     if (i >= 0 && i < heap.size()) {
