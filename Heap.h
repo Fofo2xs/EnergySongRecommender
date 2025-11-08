@@ -30,6 +30,7 @@ public:
     Song getMax() const;
     bool isEmpty() const;
     int size() const;
+    string  searchHelper(const string& str) const;
     vector<Song> search(const string &songName) const;
 
 

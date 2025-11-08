@@ -155,12 +155,22 @@ vector<Song> Heap::recommendTopNHeap(int n) const {
    return topSongs;
 }
 
+//Make song name lowercase
+string Heap::searchHelper(const string& str) const {
+
+    string lowerStr = str;
+    transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
+    return lowerStr;
+
+}
 //Search for Songs
 vector<Song> Heap::search(const string &songName) const {
     vector<Song> matchingSongs;
+    string lowerStr = searchHelper(songName);
 
     for (const auto& song : heap) {
-        if (song.getSongName() == songName) {
+        string lowerSongName = searchHelper(song.getSongName());
+        if (lowerSongName.find(lowerStr) != string::npos) {
             matchingSongs.push_back(song);
         }
     }
@@ -182,9 +192,7 @@ vector<Song> Heap::findSongInRange(double low, double high) const {
      return result;
 }
 
-   for (int i = 0; i < n && !tempHeap.isEmpty(); ++i) {
-       topSongs.push_back(tempHeap.extractMax());
-   }
+
 
 Song Heap::getRandomSong(int i) const {
     if (i >= 0 && i < heap.size()) {

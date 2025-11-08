@@ -20,7 +20,7 @@ The application allows users to perform these action:
 ------------
 <h3> Running Program </h3>
 
-1. The project requires the sfml-branch. Do not use the main branch
+1. The project requires the main branch. Do not use another branch
 2. There are two main executables: EnergySongRecommender and SongMenu
 3. EnergySongRecommender primarily runs though the console
 4. SongMenu integrates SFML visual features while printing on the console
